@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class PlanetDude : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private void OnTriggerEnter2D(Collider2D other)
+	{
+		Item item = other.GetComponent<Item>();
+		if (item != null)
+		{
+			Debug.Log($"The item {item.name} is close to me, yay !!");
+		}
+	}
 }
