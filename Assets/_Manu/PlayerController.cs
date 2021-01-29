@@ -6,12 +6,18 @@ using System.Linq;
 public class PlayerController : MonoBehaviour
 {
 	public KeyCode actionKey = KeyCode.Space;
+	public float catchRadius = 2f;
+	public LayerMask catchLayerMask;
+	public Transform itemAnchor;
+	public Transform catchPoint;
 	public float movementSpeedInSpace = 10f;
 	public float turnSpeedInSpace = 10f;
 	public SpriteRenderer rocketFlame;
 	private Rigidbody2D m_Rigidbody;
 	private List<Planet> planets;
 	public SpriteRenderer body;
+
+	private Item currentItem;
 
 	private void Awake()
 	{
@@ -47,7 +53,30 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(actionKey))
 		{
-			// do stuff
+			if (currentItem == null)
+			{
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(catchPoint.position, catchRadius, catchLayerMask);
+				Item item = colliders.Select(c => c.GetComponent<Item>()).FirstOrDefault();
+				if (item != null) // catch
+				{
+					currentItem = item;
+					currentItem.transform.SetParent(itemAnchor);
+					currentItem.transform.localPosition = Vector3.zero;
+					currentItem.IsInBackpack = true;
+				}
+			}
+			else // release
+			{
+				currentItem.transform.SetParent(null);
+				currentItem.IsInBackpack = false;
+				currentItem = null;
+			}
 		}
+	}
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.magenta;
+		Gizmos.DrawWireSphere(catchPoint.position, catchRadius);
 	}
 }

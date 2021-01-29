@@ -6,5 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Item : MonoBehaviour
 {
-	
+	public bool IsInBackpack;
+	protected void Awake()
+	{
+		this.gameObject.layer = LayerMask.NameToLayer("Item");
+	}	
 }
