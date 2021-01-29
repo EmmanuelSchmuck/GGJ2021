@@ -10,5 +10,30 @@ public class Item : MonoBehaviour
 	protected void Awake()
 	{
 		this.gameObject.layer = LayerMask.NameToLayer("Item");
-	}	
+	}
+
+	public void OnCatch(Transform anchor)
+	{
+		transform.SetParent(anchor);
+		transform.localPosition = Vector3.zero;
+		IsInBackpack = true;
+		GetComponent<Collider2D>().enabled = false;
+		GetComponent<Rigidbody2D>().isKinematic = true;
+	}
+
+	public void OnRelease()
+	{
+		transform.SetParent(null);
+		IsInBackpack = false;
+		GetComponent<Collider2D>().enabled = true;
+		GetComponent<Rigidbody2D>().isKinematic = false;
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.GetComponent<PlanetDude>() != null)
+		{
+			Debug.Log("I am close to a planet dude!");
+		}
+	}
 }

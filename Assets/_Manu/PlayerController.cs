@@ -60,15 +60,12 @@ public class PlayerController : MonoBehaviour
 				if (item != null) // catch
 				{
 					currentItem = item;
-					currentItem.transform.SetParent(itemAnchor);
-					currentItem.transform.localPosition = Vector3.zero;
-					currentItem.IsInBackpack = true;
+					currentItem.OnCatch(itemAnchor);
 				}
 			}
 			else // release
 			{
-				currentItem.transform.SetParent(null);
-				currentItem.IsInBackpack = false;
+				currentItem.OnRelease();
 				currentItem = null;
 			}
 		}
