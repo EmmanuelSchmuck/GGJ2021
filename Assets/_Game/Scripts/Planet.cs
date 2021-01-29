@@ -17,7 +17,7 @@ public class Planet : MonoBehaviour
     void Awake()
     {
 		basePosition = transform.position;
-		Radius = 2*m_CircleCollider.radius;
+		Radius = m_CircleCollider.radius * transform.localScale.x;
     }
 
     // Update is called once per frame
@@ -29,9 +29,7 @@ public class Planet : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		float surfaceRadius = 2*m_CircleCollider.radius;
-
-		Gizmos.DrawWireSphere(transform.position, surfaceRadius);
+		Gizmos.DrawWireSphere(transform.position, Radius);
 		Gizmos.DrawWireSphere(transform.position, gravityDistance);
 	}
 }

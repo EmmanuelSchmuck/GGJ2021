@@ -18,28 +18,35 @@ public class PlayerController : MonoBehaviour
 	public float altitudeOffset = 1f;
 	public AnimationCurve landingCurve;
 	public float landingAnimationDuration;
+	public AnimationCurve boneEffectCurve;
 	public SpriteRenderer rocketFlame;
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
 	private Inventory m_inventory;
 	private List<Planet> planets;
 	public SpriteRenderer body;
-
 	private Planet currentPlanet;
 	private bool jumpBuffered;
 	private bool isAnimating;
-
 	private bool invertDirectionOnPlanet;
-
 	private Vector2 lastMovementInput;
+	private FuelBar fuelBar;
+	public float startingFuel;
+	public float minFuel;
+	public float fuelConsumptionRate;
+	private float currentFuel;
 
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
 		m_Collider = GetComponent<Collider2D>();
 		m_inventory = GetComponent<Inventory>();
+		fuelBar = GameObject.FindObjectOfType<FuelBar>();
 		rocketFlame.enabled = false;
 		planets = GameObject.FindObjectsOfType<Planet>().ToList();
+
+		currentFuel = startingFuel;
+		fuelBar?.SetFuel(currentFuel);
 	}
 
 
@@ -53,10 +60,15 @@ public class PlayerController : MonoBehaviour
 		{
 			Vector2 movementDirection = -transform.right;
 			rocketFlame.enabled = movementInput.y > Mathf.Epsilon;
+			if(movementInput.y>Mathf.Epsilon)
+			{
+				currentFuel -= fuelConsumptionRate * Time.deltaTime;
+			}
 
 			float forwardInput = Mathf.Max(0, movementInput.y);
+			float fuelMultiplier = Mathf.Sqrt(currentFuel);
 
-			m_Rigidbody.AddForce(forwardInput * movementSpeedInSpace * movementDirection, ForceMode2D.Force);
+			m_Rigidbody.AddForce(forwardInput * movementSpeedInSpace * movementDirection * fuelMultiplier, ForceMode2D.Force);
 			m_Rigidbody.AddTorque(-movementInput.x * turnSpeedInSpace);
 
 			foreach (Planet planet in planets)
@@ -104,8 +116,11 @@ public class PlayerController : MonoBehaviour
 		yield return StartCoroutine(LerpPositionAndRotation(
 			currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset),
 			Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up))));
-		m_Rigidbody.simulated = false;
-		m_Collider.isTrigger = true;
+		// m_Rigidbody.simulated = false;
+		m_Rigidbody.velocity = Vector2.zero;
+		m_Rigidbody.angularVelocity = 0f;
+		// m_Rigidbody.inertia = 0;
+		m_Collider.isTrigger = false;
 		rocketFlame.enabled = false;
 		transform.SetParent(currentPlanet.transform);
 		// yield return null;
@@ -138,8 +153,11 @@ public class PlayerController : MonoBehaviour
 			currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f),
 			transform.rotation));
 		transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f);
-		m_Rigidbody.simulated = true;
+		// m_Rigidbody.simulated = true;
 		m_Collider.isTrigger = false;
+		m_Rigidbody.velocity = Vector2.zero;
+		m_Rigidbody.angularVelocity = 0f;
+		// m_Rigidbody.inertia = 0;
 		m_Rigidbody.velocity = 3 * planetCoreToDog.normalized;
 		currentPlanet = null;
 		// yield return null;
@@ -147,6 +165,9 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+		currentFuel = Mathf.Clamp(currentFuel,minFuel,1f);
+		fuelBar?.SetFuel(currentFuel);
+
 		if(isAnimating) return;
 
 		if (Input.GetKeyDown(actionKey))
@@ -169,6 +190,31 @@ public class PlayerController : MonoBehaviour
 		if (currentPlanet != null && Input.GetAxisRaw("Vertical") > Mathf.Epsilon && !isAnimating)
 		{
 			StartCoroutine(LeavePlanet());
+		}
+	}
+
+	private IEnumerator BoneEffect(float intensity, float duration)
+	{
+		float startSpeed = movementSpeedInSpace;
+		float endSpeed = movementSpeedInSpace + intensity;
+		float timer = 0f;
+		while(timer < duration)
+		{
+			timer += Time.deltaTime;
+			float alpha = boneEffectCurve.Evaluate(timer/duration);
+			movementSpeedInSpace = Mathf.Lerp(startSpeed, endSpeed, alpha);
+			yield return null;
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		Bone bone = other.GetComponent<Bone>();
+		if(bone != null)
+		{
+			bone.OnBeingCollected();
+			currentFuel += Mathf.Lerp(bone.extraFuelMin, bone.extraFuelMax, 1f-currentFuel);
+			StartCoroutine(BoneEffect(bone.speedBoostIntensity, bone.speedBoostDuration));
 		}
 	}
 

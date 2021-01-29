@@ -278,10 +278,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   catchPoint: {fileID: 9102650004600849224}
-  movementSpeedInSpace: 15
-  turnSpeedInSpace: 12
+  movementSpeedInSpace: 20
+  turnSpeedInSpace: 20
   planetaryModeDistance: 3
-  useDirectionInvertionBelowPlanet: 1
+  useDirectionInvertionBelowPlanet: 0
   movementSpeedOnPlanet: 10
   altitudeOffset: 1
   landingCurve:
@@ -309,8 +309,44 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   landingAnimationDuration: 0.5
+  boneEffectCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.012093704
+      value: 0.9881474
+      inSlope: 0.09192966
+      outSlope: 0.09192966
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.14279336
+      value: 1.0023861
+      inSlope: -0.12632112
+      outSlope: -0.12632112
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06536571
+    - serializedVersion: 3
+      time: 0.99780273
+      value: -0.0023536682
+      inSlope: -3.6520672
+      outSlope: -3.6520672
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03466359
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   rocketFlame: {fileID: 9102650004696341108}
   body: {fileID: 9102650005321899878}
+  startingFuel: 0.66
+  minFuel: 0.1
+  fuelConsumptionRate: 0.033
 --- !u!114 &1229794469356971783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +374,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 1
-  m_AngularDrag: 3
+  m_AngularDrag: 6
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
