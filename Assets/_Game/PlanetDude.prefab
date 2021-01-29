@@ -78,6 +78,7 @@ MonoBehaviour:
   speechBubblePrefab: {fileID: 113465863023541360, guid: f6eca5f523245304ab05fcd9f018b556,
     type: 3}
   dialogAnchor: {fileID: 6083393395891515661}
+  spawnDetached: 1
 --- !u!212 &1363024218225987201
 SpriteRenderer:
   m_ObjectHideFlags: 0

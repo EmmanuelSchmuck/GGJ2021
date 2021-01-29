@@ -235,6 +235,9 @@ public class PlayerController : MonoBehaviour
 			{
 				m_inventory.DropItem();
 			}
+
+			// lets other components do stuff.
+			SendMessage("OnPlayerActionKeyDown", SendMessageOptions.DontRequireReceiver);
 		}
 
 		if (currentPlanet != null && Input.GetKeyDown(KeyCode.UpArrow) && !isAnimating)
