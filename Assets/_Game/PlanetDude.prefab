@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1363024218225987324}
   - component: {fileID: 1363024218225987327}
+  - component: {fileID: 191311984153062420}
   - component: {fileID: 1363024218225987201}
   - component: {fileID: 1363024218225987326}
   m_Layer: 0
@@ -29,7 +30,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.9, y: 0.000000058442, z: 0}
   m_LocalScale: {x: 0.46929, y: 0.46929, z: 0.46929}
-  m_Children: []
+  m_Children:
+  - {fileID: 6996412808347719486}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,6 +47,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed300b7fb2e7be4596f4d0f5c41d9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DesiredInstrumentKind: 0
+--- !u!114 &191311984153062420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363024218225987325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc9bbeba5abca64ba28b04f005eb0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemAnchor: {fileID: 6996412808347719486}
 --- !u!212 &1363024218225987201
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -111,3 +127,33 @@ CircleCollider2D:
   m_Offset: {x: -0.0000019073486, y: -0.00000023841858}
   serializedVersion: 2
   m_Radius: 3.4
+--- !u!1 &8577193420222829003
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6996412808347719486}
+  m_Layer: 0
+  m_Name: ItemAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6996412808347719486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577193420222829003}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.961, y: -0.32, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1363024218225987324}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

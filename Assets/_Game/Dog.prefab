@@ -233,6 +233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9102650005679686969}
   - component: {fileID: 9102650005679686974}
+  - component: {fileID: 1229794469356971783}
   - component: {fileID: 9102650005679686971}
   - component: {fileID: 9102650005679686968}
   m_Layer: 0
@@ -285,6 +286,20 @@ MonoBehaviour:
   altitudeOffset: 1
   rocketFlame: {fileID: 9102650004696341108}
   body: {fileID: 9102650005321899878}
+--- !u!114 &1229794469356971783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9102650005679686975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc9bbeba5abca64ba28b04f005eb0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OccupyingItem: {fileID: 0}
+  itemAnchor: {fileID: 9102650004658745532}
 --- !u!50 &9102650005679686971
 Rigidbody2D:
   serializedVersion: 4

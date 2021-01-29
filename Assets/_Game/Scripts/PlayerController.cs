@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+[RequireComponent(typeof(Inventory))]
 public class PlayerController : MonoBehaviour
 {
 	public KeyCode actionKey = KeyCode.Space;
 	public float catchRadius = 2f;
 	public LayerMask catchLayerMask;
-	public Transform itemAnchor;
 	public Transform catchPoint;
 	public float movementSpeedInSpace = 10f;
 	public float turnSpeedInSpace = 10f;
@@ -18,10 +18,10 @@ public class PlayerController : MonoBehaviour
 	public SpriteRenderer rocketFlame;
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
+	private Inventory m_inventory;
 	private List<Planet> planets;
 	public SpriteRenderer body;
 
-	private Item currentItem;
 	private Planet currentPlanet;
 	private bool jumpBuffered;
 
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
 		m_Collider = GetComponent<Collider2D>();
+		m_inventory = GetComponent<Inventory>();
 		rocketFlame.enabled = false;
 		planets = GameObject.FindObjectsOfType<Planet>().ToList();
 	}
@@ -104,20 +105,18 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(actionKey))
 		{
-			if (currentItem == null)
+			if (m_inventory.IsFree)
 			{
 				Collider2D[] colliders = Physics2D.OverlapCircleAll(catchPoint.position, catchRadius, catchLayerMask);
 				Item item = colliders.Select(c => c.GetComponent<Item>()).FirstOrDefault();
 				if (item != null) // catch
 				{
-					currentItem = item;
-					currentItem.OnCatch(itemAnchor);
+					m_inventory.AcceptItem(item);
 				}
 			}
 			else // release
 			{
-				currentItem.OnRelease();
-				currentItem = null;
+				m_inventory.DropItem();
 			}
 		}
 
