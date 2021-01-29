@@ -6,7 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Item : MonoBehaviour
 {
-	public bool IsInBackpack; // am I currently on the dog's back
 	public int CatchCount; // how many time was I caught by the dog
 	protected void Awake()
 	{
@@ -18,7 +17,7 @@ public class Item : MonoBehaviour
 		CatchCount++;
 		transform.SetParent(anchor);
 		transform.localPosition = Vector3.zero;
-		IsInBackpack = true;
+		
 		GetComponent<Collider2D>().enabled = false;
 		GetComponent<Rigidbody2D>().isKinematic = true;
 	}
@@ -26,7 +25,6 @@ public class Item : MonoBehaviour
 	public void OnRelease()
 	{
 		transform.SetParent(null);
-		IsInBackpack = false;
 		GetComponent<Collider2D>().enabled = true;
 		GetComponent<Rigidbody2D>().isKinematic = false;
 	}
