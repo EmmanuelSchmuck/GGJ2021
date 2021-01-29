@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
 			planetCoreToDog = transform.position - currentPlanet.transform.position;
 			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset);
 			transform.rotation = Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up));
+			
 			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)
 			{
 				body.transform.localScale = new Vector3(movementInput.x*(invertDirectionOnPlanet ? -1 : +1)<0?1:-1,1,1);
@@ -187,7 +188,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (currentPlanet != null && Input.GetAxisRaw("Vertical") > Mathf.Epsilon && !isAnimating)
+		if (currentPlanet != null && Input.GetKeyDown(KeyCode.UpArrow) && !isAnimating)
 		{
 			StartCoroutine(LeavePlanet());
 		}
