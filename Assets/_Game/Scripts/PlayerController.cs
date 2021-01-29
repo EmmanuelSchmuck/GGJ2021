@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 	public float planetaryModeDistance;
 	public float movementSpeedOnPlanet = 10f;
 	public float altitudeOffset = 1f;
+	public AnimationCurve landingCurve;
+	public float landingAnimationDuration;
 	public SpriteRenderer rocketFlame;
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
 	private Planet currentPlanet;
 	private bool jumpBuffered;
+
+	private bool isAnimating;
 
 	private void Awake()
 	{
@@ -37,6 +41,8 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if(isAnimating) return;
+
 		Vector2 movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 		if (currentPlanet == null) // in space
@@ -57,9 +63,9 @@ public class PlayerController : MonoBehaviour
 					Vector2 force = toPlanet.normalized * planet.gravityMagnitude / toPlanet.sqrMagnitude;
 					m_Rigidbody.AddForce(force, ForceMode2D.Force);
 				}
-				if (toPlanet.magnitude - planet.Radius < planetaryModeDistance && currentPlanet == null)
+				if (toPlanet.magnitude - planet.Radius < planetaryModeDistance && currentPlanet == null && !isAnimating)
 				{
-					LandOnPlanet(planet);
+					StartCoroutine(LandOnPlanet(planet));
 				}
 			}
 		}
@@ -79,30 +85,58 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void LandOnPlanet(Planet planet)
+	private IEnumerator LandOnPlanet(Planet planet)
 	{
 		currentPlanet = planet;
-		transform.SetParent(currentPlanet.transform);
+		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
+		yield return StartCoroutine(LerpPositionAndRotation(
+			currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset),
+			Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up))));
 		m_Rigidbody.simulated = false;
 		m_Collider.isTrigger = true;
 		rocketFlame.enabled = false;
+		transform.SetParent(currentPlanet.transform);
+		// yield return null;
 	}
 
-	private void LeavePlanet(Planet planet)
+	private IEnumerator LerpPositionAndRotation(Vector3 location, Quaternion rotation)
+	{
+		isAnimating = true;
+		float duration = landingAnimationDuration;
+		float timer = 0f;
+		Vector3 startPosition = transform.position;
+		Quaternion startRotation = transform.rotation;
+		while(timer < duration)
+		{	
+			float alpha = landingCurve.Evaluate(timer/duration);
+			transform.position = Vector3.Lerp(startPosition, location, alpha);
+			transform.rotation = Quaternion.Slerp(startRotation, rotation, alpha);
+			timer += Time.deltaTime;
+			yield return null;
+		}
+		isAnimating = false;
+	}
+
+	private IEnumerator LeavePlanet()
 	{
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 		transform.SetParent(null);
-		transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f);
 		body.transform.localScale = Vector3.one;
+		yield return StartCoroutine(LerpPositionAndRotation(
+			currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f),
+			transform.rotation));
+		transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f);
 		m_Rigidbody.simulated = true;
 		m_Collider.isTrigger = false;
-		rocketFlame.enabled = false;
-		m_Rigidbody.AddForce(5 * planetCoreToDog.normalized, ForceMode2D.Impulse);
+		m_Rigidbody.velocity = 3 * planetCoreToDog.normalized;
 		currentPlanet = null;
+		// yield return null;
 	}
 
 	private void Update()
 	{
+		if(isAnimating) return;
+
 		if (Input.GetKeyDown(actionKey))
 		{
 			if (m_inventory.IsFree)
@@ -120,9 +154,9 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (currentPlanet != null && Input.GetAxisRaw("Vertical") > Mathf.Epsilon)
+		if (currentPlanet != null && Input.GetAxisRaw("Vertical") > Mathf.Epsilon && !isAnimating)
 		{
-			LeavePlanet(currentPlanet);
+			StartCoroutine(LeavePlanet());
 		}
 	}
 
