@@ -67,12 +67,12 @@ public class PlayerController : MonoBehaviour
 		{
 			Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 			float altitude = planetCoreToDog.magnitude - currentPlanet.Radius;
-			Vector2 movement = Vector3.Cross(Vector3.back,planetCoreToDog.normalized)*movementInput.x * movementSpeedOnPlanet;
+			Vector2 movement = Vector3.Cross(Vector3.back, planetCoreToDog.normalized) * movementInput.x * movementSpeedOnPlanet;
 			transform.position += (Vector3)movement * Time.deltaTime;
 			planetCoreToDog = transform.position - currentPlanet.transform.position;
-			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius+altitudeOffset);
-			transform.up = planetCoreToDog.normalized;
-			if(Mathf.Abs(movementInput.x) > Mathf.Epsilon)
+			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset);
+			transform.rotation = Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up));
+			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)
 			{
 				body.transform.localScale = new Vector3(movementInput.x<0?1:-1,1,1);
 			}
@@ -92,12 +92,12 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 		transform.SetParent(null);
-		transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius+altitudeOffset+planetaryModeDistance+2f);
+		transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f);
 		body.transform.localScale = Vector3.one;
 		m_Rigidbody.simulated = true;
 		m_Collider.isTrigger = false;
 		rocketFlame.enabled = false;
-		m_Rigidbody.AddForce(5*planetCoreToDog.normalized, ForceMode2D.Impulse);
+		m_Rigidbody.AddForce(5 * planetCoreToDog.normalized, ForceMode2D.Impulse);
 		currentPlanet = null;
 	}
 
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if(currentPlanet != null && Input.GetAxisRaw("Vertical")>Mathf.Epsilon)
+		if (currentPlanet != null && Input.GetAxisRaw("Vertical") > Mathf.Epsilon)
 		{
 			LeavePlanet(currentPlanet);
 		}
