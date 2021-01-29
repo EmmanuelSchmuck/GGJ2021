@@ -12,8 +12,12 @@ public class SpeechBubble : MonoBehaviour
 	}
 
 	public TextMeshPro textMesh;
+	public AnimationCurve opacityOverLifetime;
 
-	public void InitAttached(string text, Transform target)
+	private float lifetime;
+	private float remainingTime;
+
+	public void InitAttached(string text, Transform target, float duration)
 	{
 		// Become a child of the target.
 		transform.parent = target;
@@ -21,6 +25,8 @@ public class SpeechBubble : MonoBehaviour
 
 		// Sets the content.
 		Text = text;
+		remainingTime = duration;
+		lifetime = duration;
 	}
 
 	private void LateUpdate()
@@ -28,30 +34,16 @@ public class SpeechBubble : MonoBehaviour
 		if (transform.parent != null)
 		{
 			textMesh.rectTransform.eulerAngles = Vector3.zero;
+		}
 
-			//float rot = transform.parent.eulerAngles.z % 360f;
-			//Debug.Log(rot + " " + Mathf.Deg2Rad * rot);
-
-			//if (rot <= 45 && rot > 315)
-			//{
-			//	// above, center down
-			//	textMesh.rectTransform.pivot = new Vector2(0.5f, 0f);
-			//}
-			//else if (rot > 45 && rot <= 135)
-			//{
-			//	// left, right center
-			//	textMesh.rectTransform.pivot = new Vector2(1f, 0.5f);
-			//}
-			//else if (rot > 135 && rot <= 225)
-			//{
-			//	// below, center up
-			//	textMesh.rectTransform.pivot = new Vector2(0.5f, 0f);
-			//}
-			//else
-			//{
-			//	// right, left center
-			//	textMesh.rectTransform.pivot = new Vector2(0f, 0.5f);
-			//}
+		// animates opacity
+		remainingTime -= Time.deltaTime;
+		Color textColor = textMesh.color;
+		textColor.a = Mathf.Clamp01(opacityOverLifetime.Evaluate(Mathf.InverseLerp(0, lifetime, lifetime - remainingTime)));
+		textMesh.color = textColor;
+		if (remainingTime <= 0f)
+		{
+			Destroy(gameObject);
 		}
 	}
 }

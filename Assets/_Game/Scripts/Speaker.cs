@@ -14,7 +14,7 @@ public class Speaker : MonoBehaviour
 		if (currentBubble == null)
 		{
 			currentBubble = Instantiate<SpeechBubble>(speechBubblePrefab);
-			currentBubble.InitAttached(text, dialogAnchor);
+			currentBubble.InitAttached(text, dialogAnchor, 5f);
 		}
 		else
 		{
