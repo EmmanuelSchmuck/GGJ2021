@@ -16,12 +16,25 @@ public class SpeechBubble : MonoBehaviour
 
 	private float lifetime;
 	private float remainingTime;
+	private Vector3 driftDirection;
 
-	public void InitAttached(string text, Transform target, float duration)
+	public void Init(string text, Transform target, float duration, bool attached = true)
 	{
-		// Become a child of the target.
-		transform.parent = target;
-		transform.localPosition = Vector3.zero;
+		if (attached)
+		{
+			// Become a child of the target.
+			transform.parent = target;
+			transform.localPosition = Vector3.zero;
+		}
+		else
+		{
+			// Stay in world space but take the position of the target.
+			transform.parent = null;
+			transform.position = target.position;
+
+			// Drift away to random pos.
+			driftDirection = Random.onUnitSphere;
+		}
 
 		// Sets the content.
 		Text = text;
@@ -45,5 +58,8 @@ public class SpeechBubble : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+
+		// drifting
+		transform.position += Time.deltaTime * driftDirection;
 	}
 }
