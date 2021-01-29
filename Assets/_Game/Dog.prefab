@@ -281,6 +281,7 @@ MonoBehaviour:
   movementSpeedInSpace: 15
   turnSpeedInSpace: 12
   planetaryModeDistance: 3
+  useDirectionInvertionBelowPlanet: 1
   movementSpeedOnPlanet: 10
   altitudeOffset: 1
   landingCurve:

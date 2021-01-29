@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 	public float movementSpeedInSpace = 10f;
 	public float turnSpeedInSpace = 10f;
 	public float planetaryModeDistance;
+	public bool useDirectionInvertionBelowPlanet;
 	public float movementSpeedOnPlanet = 10f;
 	public float altitudeOffset = 1f;
 	public AnimationCurve landingCurve;
@@ -26,8 +27,11 @@ public class PlayerController : MonoBehaviour
 
 	private Planet currentPlanet;
 	private bool jumpBuffered;
-
 	private bool isAnimating;
+
+	private bool invertDirectionOnPlanet;
+
+	private Vector2 lastMovementInput;
 
 	private void Awake()
 	{
@@ -71,18 +75,26 @@ public class PlayerController : MonoBehaviour
 		}
 		else // on planet
 		{
+			if(lastMovementInput.x * movementInput.x < Mathf.Epsilon)
+			{
+				invertDirectionOnPlanet = useDirectionInvertionBelowPlanet && transform.position.y - currentPlanet.transform.position.y < 0;
+			}
+			// movementInput *= invertDirectionOnPlanet ? -1 : +1;
 			Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 			float altitude = planetCoreToDog.magnitude - currentPlanet.Radius;
 			Vector2 movement = Vector3.Cross(Vector3.back, planetCoreToDog.normalized) * movementInput.x * movementSpeedOnPlanet;
+			movement *= invertDirectionOnPlanet ? -1 : +1;
 			transform.position += (Vector3)movement * Time.deltaTime;
 			planetCoreToDog = transform.position - currentPlanet.transform.position;
 			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset);
 			transform.rotation = Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up));
 			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)
 			{
-				body.transform.localScale = new Vector3(movementInput.x<0?1:-1,1,1);
+				body.transform.localScale = new Vector3(movementInput.x*(invertDirectionOnPlanet ? -1 : +1)<0?1:-1,1,1);
 			}
 		}
+
+		lastMovementInput = movementInput;
 	}
 
 	private IEnumerator LandOnPlanet(Planet planet)

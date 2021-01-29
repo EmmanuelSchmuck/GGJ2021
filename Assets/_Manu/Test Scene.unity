@@ -714,31 +714,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9102650005679686974, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
-        type: 3}
-      propertyPath: planetaryModeDistance
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9102650005679686974, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
-        type: 3}
-      propertyPath: landingAnimationDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9102650005679686974, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
-        type: 3}
-      propertyPath: landingCurve.m_Curve.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9102650005679686974, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
-        type: 3}
-      propertyPath: landingCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9102650005679686974, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
-        type: 3}
-      propertyPath: landingCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9102650005679686975, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
         type: 3}
       propertyPath: m_Name
