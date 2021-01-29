@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
 	public float fuelConsumptionRate;
 	private float currentFuel;
 
+	public GameObject bonePrefab;
+
+	private bool hasHelperBone;
+
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -110,6 +114,43 @@ public class PlayerController : MonoBehaviour
 		lastMovementInput = movementInput;
 	}
 
+	private IEnumerator SpawnHelperBone()
+	{
+		int trials = 0;
+		int maxtrial = 100;
+		float boneDistance = 10;
+		float minDistanceToStuff = 2f;
+		bool success = false;
+		Vector2 bonePosition = Vector2.zero;
+
+		hasHelperBone = true;
+
+		while(true)
+		{
+			trials++;
+			// if(trials>maxtrial/2) boneDistance *= 0.66f;
+			if(trials==maxtrial) break;
+			yield return null;
+			bonePosition = (Vector2)transform.position + Random.insideUnitCircle.normalized * boneDistance;
+			if(Physics2D.OverlapCircle(bonePosition,minDistanceToStuff)==null)
+			{
+				success = true;
+				break;
+			}
+		}
+
+		if(success)
+		{
+			Instantiate(bonePrefab,bonePosition,Quaternion.identity);
+			Debug.Log("here is a helper bone :)");
+		}
+		else
+		{
+			Debug.LogError("Cannot create helper bone :((");
+		}
+		
+	}
+
 	private IEnumerator LandOnPlanet(Planet planet)
 	{
 		currentPlanet = planet;
@@ -168,6 +209,14 @@ public class PlayerController : MonoBehaviour
 	{
 		currentFuel = Mathf.Clamp(currentFuel,minFuel,1f);
 		fuelBar?.SetFuel(currentFuel);
+		if(currentFuel < minFuel + 0.05f)
+		{
+			if(!hasHelperBone) StartCoroutine(SpawnHelperBone());
+		}
+		else
+		{
+			hasHelperBone = false;
+		}
 
 		if(isAnimating) return;
 
