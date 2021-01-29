@@ -277,13 +277,37 @@ MonoBehaviour:
   catchLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  itemAnchor: {fileID: 9102650004658745532}
   catchPoint: {fileID: 9102650004600849224}
   movementSpeedInSpace: 15
   turnSpeedInSpace: 12
-  planetaryModeDistance: 2
+  planetaryModeDistance: 3
   movementSpeedOnPlanet: 10
   altitudeOffset: 1
+  landingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  landingAnimationDuration: 0.5
   rocketFlame: {fileID: 9102650004696341108}
   body: {fileID: 9102650005321899878}
 --- !u!114 &1229794469356971783
@@ -298,7 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc9bbeba5abca64ba28b04f005eb0d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OccupyingItem: {fileID: 0}
   itemAnchor: {fileID: 9102650004658745532}
 --- !u!50 &9102650005679686971
 Rigidbody2D:
