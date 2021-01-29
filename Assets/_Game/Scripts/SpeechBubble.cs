@@ -27,7 +27,7 @@ public class SpeechBubble : MonoBehaviour
 	{
 		if (transform.parent != null)
 		{
-			transform.eulerAngles = Vector3.zero;
+			textMesh.rectTransform.eulerAngles = Vector3.zero;
 
 			//float rot = transform.parent.eulerAngles.z % 360f;
 			//Debug.Log(rot + " " + Mathf.Deg2Rad * rot);
