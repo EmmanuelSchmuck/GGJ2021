@@ -379,6 +379,8 @@ MonoBehaviour:
   startingFuel: 0.66
   minFuel: 0.1
   fuelConsumptionRate: 0.033
+  bonePrefab: {fileID: 5661681900338020270, guid: 35c39794480a515499a0d51acf1c3dbf,
+    type: 3}
 --- !u!114 &1229794469356971783
 MonoBehaviour:
   m_ObjectHideFlags: 0
