@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 9102650005679686971}
   - component: {fileID: 9102650005679686968}
   m_Layer: 0
-  m_Name: Dog_Test
+  m_Name: Dog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,6 +280,9 @@ MonoBehaviour:
   catchPoint: {fileID: 9102650004600849224}
   movementSpeedInSpace: 15
   turnSpeedInSpace: 12
+  planetaryModeDistance: 2
+  movementSpeedOnPlanet: 10
+  altitudeOffset: 1
   rocketFlame: {fileID: 9102650004696341108}
   body: {fileID: 9102650005321899878}
 --- !u!50 &9102650005679686971
