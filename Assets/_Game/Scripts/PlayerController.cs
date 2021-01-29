@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 	public Transform catchPoint;
 	public float movementSpeedInSpace = 10f;
 	public float turnSpeedInSpace = 10f;
+	public float planetaryModeDistance;
 	public SpriteRenderer rocketFlame;
 	private Rigidbody2D m_Rigidbody;
 	private List<Planet> planets;
