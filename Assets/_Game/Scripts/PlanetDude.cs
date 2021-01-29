@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(Speaker))]
 public class PlanetDude : MonoBehaviour
 {
 	public InstrumentKind DesiredInstrumentKind;
 
-	private Inventory m_inventory;
+	private Inventory m_Inventory;
+	private Speaker m_Speaker;
 
 	private void Awake()
 	{
-		m_inventory = GetComponent<Inventory>();
+		m_Inventory = GetComponent<Inventory>();
+		m_Speaker = GetComponent<Speaker>();
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
@@ -21,13 +24,31 @@ public class PlanetDude : MonoBehaviour
 		{
 			Debug.Log($"The item {item.name} is close to me, yay !!");
 
-			if (item.GetComponent<Instrument>()?.Kind == DesiredInstrumentKind)
-			{
-				// updates game state.
-				GameState.Instance.OnItemReturnedToOwner(DesiredInstrumentKind);
+			Instrument instrument = item.GetComponent<Instrument>();
 
-				// take the item.
-				m_inventory.AcceptItem(item);
+			if (instrument != null)
+			{
+				if (instrument.Kind == DesiredInstrumentKind)
+				{
+					// updates game state.
+					GameState.Instance.OnItemReturnedToOwner(DesiredInstrumentKind);
+
+					// take the item.
+					m_Inventory.AcceptItem(item);
+
+					// dialog.
+					m_Speaker.Speak("omg awesom");
+				}
+				else
+				{
+					// dialog.
+					m_Speaker.Speak("not my stuff!");
+				}
+			}
+			else
+			{
+				// dialog.
+				m_Speaker.Speak("woot?");
 			}
 		}
 	}

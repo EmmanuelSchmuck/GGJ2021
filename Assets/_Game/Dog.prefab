@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1939862689892466814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4931215829334906409}
+  m_Layer: 0
+  m_Name: DialogAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4931215829334906409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939862689892466814}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.73, y: 0.59, z: 0}
+  m_LocalScale: {x: 0.8018455, y: 0.8018455, z: 0.8018455}
+  m_Children: []
+  m_Father: {fileID: 9102650005679686969}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9102650004600849225
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,6 +264,7 @@ GameObject:
   - component: {fileID: 9102650005679686969}
   - component: {fileID: 9102650005679686974}
   - component: {fileID: 1229794469356971783}
+  - component: {fileID: 9160843917391209853}
   - component: {fileID: 9102650005679686971}
   - component: {fileID: 9102650005679686968}
   m_Layer: 0
@@ -257,6 +288,7 @@ Transform:
   - {fileID: 9102650005321899879}
   - {fileID: 9102650004658745532}
   - {fileID: 9102650004600849224}
+  - {fileID: 4931215829334906409}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -324,6 +356,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemAnchor: {fileID: 9102650004658745532}
+--- !u!114 &9160843917391209853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9102650005679686975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e38af83af0e9741b815ef2d619db62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speechBubblePrefab: {fileID: 113465863023541360, guid: f6eca5f523245304ab05fcd9f018b556,
+    type: 3}
+  dialogAnchor: {fileID: 4931215829334906409}
 --- !u!50 &9102650005679686971
 Rigidbody2D:
   serializedVersion: 4
