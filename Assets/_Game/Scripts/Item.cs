@@ -4,12 +4,20 @@ using UnityEngine;
 
 // can be grabbed & released by dog
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Item : MonoBehaviour
 {
 	public int CatchCount; // how many time was I caught by the dog
+
+	private Rigidbody2D m_Rigidbody;
+	private Collider2D m_Collider;
+
 	protected void Awake()
 	{
 		this.gameObject.layer = LayerMask.NameToLayer("Item");
+
+		this.m_Rigidbody = GetComponent<Rigidbody2D>();
+		this.m_Collider = GetComponent<Collider2D>();
 	}
 
 	public void OnCatch(Transform anchor)
@@ -17,15 +25,15 @@ public class Item : MonoBehaviour
 		CatchCount++;
 		transform.SetParent(anchor);
 		transform.localPosition = Vector3.zero;
-		
-		GetComponent<Collider2D>().enabled = false;
-		GetComponent<Rigidbody2D>().isKinematic = true;
+
+		m_Collider.enabled = false;
+		m_Rigidbody.simulated = false;
 	}
 
 	public void OnRelease()
 	{
 		transform.SetParent(null);
-		GetComponent<Collider2D>().enabled = true;
-		GetComponent<Rigidbody2D>().isKinematic = false;
+		m_Collider.enabled = true;
+		m_Rigidbody.simulated = true;
 	}
 }
