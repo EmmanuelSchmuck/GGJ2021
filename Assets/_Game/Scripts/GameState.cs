@@ -91,13 +91,13 @@ public class GameState : MonoBehaviour
 		public override bool keepWaiting => !instance.instrumentStates[kind].IsReturnedToOwner;
 	}
 
-	private class WaitForPlayerInSpace : CustomYieldInstruction
+	private class WaitForPlayerLeavePlanet : CustomYieldInstruction
 	{
 		private readonly PlayerController player;
 
 		private bool isPlayerInSpace;
 
-		public WaitForPlayerInSpace()
+		public WaitForPlayerLeavePlanet()
 		{
 			this.player = instance.player;
 
@@ -223,7 +223,7 @@ public class GameState : MonoBehaviour
 		// wait for player to lift up in space
 		SetPlayerCanTakeoff(true);
 		helperBox.DisplayText(HelperBoxText.JumpToSpace);
-		yield return new WaitForPlayerInSpace();
+		yield return new WaitForPlayerLeavePlanet();
 
 		// final hints
 		helperBox.Hide();
