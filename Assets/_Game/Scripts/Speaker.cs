@@ -10,12 +10,12 @@ public class Speaker : MonoBehaviour
 
 	private SpeechBubble currentBubble;
 
-    public void Speak(string text)
+    public void Speak(string text, float duration = 5f)
 	{
 		if (currentBubble == null || spawnDetached)
 		{
 			var bubble = Instantiate<SpeechBubble>(speechBubblePrefab);
-			bubble.Init(text, dialogAnchor, 5f, !spawnDetached, transform.up);
+			bubble.Init(text, dialogAnchor, duration, !spawnDetached, transform.up);
 
 			if (!spawnDetached)
 			{

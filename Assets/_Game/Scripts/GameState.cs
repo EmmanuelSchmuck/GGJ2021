@@ -99,8 +99,8 @@ public class GameState : MonoBehaviour
 		helperBox.Hide();
 		SetPlayerInteractive(false);
 		yield return StartCoroutine(RunDialog(mikeOwner.speaker,
-			("oh hi there!", 1f),
-			("i'm really sad :(", 2f)));
+			("oh hi there!", 2f),
+			("i'm really sad :(", 3f)));
 	}
 
 	//public void OnPlayerProximity(PlayerController player, GameObject gameObject)
@@ -138,8 +138,9 @@ public class GameState : MonoBehaviour
 	{
 		foreach (var spec in lines)
 		{
-			spec.speaker.Speak(spec.line);
-			yield return new WaitForSeconds(spec.duration);
+			spec.speaker.Speak(spec.line, spec.duration);
+			yield return new WaitForSeconds(spec.duration * 0.95f);
+			// spawn next dialog slightly before the last one faded out.
 		}
 	}
 	#endregion
