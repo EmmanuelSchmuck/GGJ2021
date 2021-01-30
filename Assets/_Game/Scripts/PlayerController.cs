@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
 	public bool useDirectionInvertionBelowPlanet;
 	public float movementSpeedOnPlanet = 10f;
 	public float altitudeOffset = 1f;
+	public AnimationCurve walkCurve;
+	public float walkOffset;
+	public float walkStepLength;
 	public AnimationCurve landingCurve;
 	public float landingAnimationDuration;
 	public AnimationCurve boneEffectCurve;
@@ -45,6 +48,8 @@ public class PlayerController : MonoBehaviour
 	public GameObject bonePrefab;
 
 	private bool hasHelperBone;
+
+	public float stepCycle;
 
 	public event VoidEvent<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
 	public event System.Action<PlayerController,GameObject> ProximityEnter, ProximityLeave;
@@ -245,22 +250,24 @@ public class PlayerController : MonoBehaviour
 			StartCoroutine(LeavingPlanet());
 		}
 
-		if(currentPlanet != null)
+		if(currentPlanet != null) // walk on planet
 		{
 			Vector2 movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 			movementInput *= canMove ? 1 : 0;
+			stepCycle = Mathf.Repeat(stepCycle + Mathf.Abs(movementInput.x) * Time.deltaTime/walkStepLength, 1f);
 			if(lastMovementInput.x * movementInput.x < Mathf.Epsilon)
 			{
 				invertDirectionOnPlanet = useDirectionInvertionBelowPlanet && transform.position.y - currentPlanet.transform.position.y < 0;
 			}
 			// movementInput *= invertDirectionOnPlanet ? -1 : +1;
 			Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
-			float altitude = planetCoreToDog.magnitude - currentPlanet.Radius;
+			// float altitude = planetCoreToDog.magnitude - currentPlanet.Radius + walkOffset * walkCurve.Evaluate(stepCycle);
 			Vector2 movement = Vector3.Cross(Vector3.back, planetCoreToDog.normalized) * movementInput.x * movementSpeedOnPlanet;
 			movement *= invertDirectionOnPlanet ? -1 : +1;
 			transform.position += (Vector3)movement * Time.deltaTime;
 			planetCoreToDog = transform.position - currentPlanet.transform.position;
-			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset);
+			float altitude = currentPlanet.Radius + altitudeOffset + walkOffset * walkCurve.Evaluate(stepCycle);
+			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * altitude;
 			transform.rotation = Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up));
 			
 			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)

@@ -317,6 +317,41 @@ MonoBehaviour:
   useDirectionInvertionBelowPlanet: 0
   movementSpeedOnPlanet: 10
   altitudeOffset: 1
+  walkCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0043945312
+      value: 0.00705719
+      inSlope: 4.6867404
+      outSlope: 4.6867404
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.051567305
+    - serializedVersion: 3
+      time: 0.4868132
+      value: 1.0035536
+      inSlope: 0.027756095
+      outSlope: 0.027756095
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.99780273
+      value: -0.0047073364
+      inSlope: -3.590216
+      outSlope: -3.590216
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0646579
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  walkOffset: 0.5
+  walkStepLength: 0.25
   landingCurve:
     serializedVersion: 2
     m_Curve:
@@ -385,6 +420,7 @@ MonoBehaviour:
   canUseActionKey: 1
   bonePrefab: {fileID: 5661681900338020270, guid: 35c39794480a515499a0d51acf1c3dbf,
     type: 3}
+  stepCycle: 0
 --- !u!114 &1229794469356971783
 MonoBehaviour:
   m_ObjectHideFlags: 0
