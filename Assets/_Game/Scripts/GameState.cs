@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,20 +12,59 @@ public class GameState : MonoBehaviour
 	public static GameState Instance => instance ?? (instance = FindObjectOfType<GameState>());
 	#endregion
 
-	#region Scene
+	#region Scene Deps
 	public PlayerController player;
 	public FuelBar fuelBar;
+	public HelperBox helperBox;
 	#endregion
 
 	#region State
-	private Dictionary<InstrumentKind, InstrumentState> instrumentStates; 
+	private Dictionary<InstrumentKind, InstrumentState> instrumentStates;
+	#endregion
+
+	#region Extra Coroutines
+	private class WaitForPlayerNearTarget : CustomYieldInstruction
+	{
+		private readonly GameObject target;
+		private readonly PlayerController player;
+
+		private bool isPlayerNearTarget;
+
+		public WaitForPlayerNearTarget(PlanetDude dude) : this(dude.gameObject) { }
+
+		public WaitForPlayerNearTarget(GameObject obj)
+		{
+			this.target = obj;
+			this.player = instance.player;
+
+			player.ProximityEnter += OnProximity;
+		}
+
+		private void OnProximity(PlayerController player, GameObject obj)
+		{
+			if (obj != null && obj == target)
+			{
+				player.ProximityEnter -= OnProximity;
+				isPlayerNearTarget = true;
+			}
+		}
+
+		public override bool keepWaiting => !isPlayerNearTarget;
+	} 
 	#endregion
 
 	private void Awake()
 	{
-        // init substates
-        instrumentStates = System.Enum.GetValues(typeof(InstrumentKind)).OfType<InstrumentKind>()
-            .ToDictionary(kind => kind, kind => new InstrumentState());
+		instance = instance ?? this;
+
+		// init substates
+		var owners = FindObjectsOfType<PlanetDude>();
+		instrumentStates = System.Enum.GetValues(typeof(InstrumentKind)).OfType<InstrumentKind>()
+			.ToDictionary(kind => kind, kind => new InstrumentState()
+			{
+				Kind = kind,
+				Owner = owners.FirstOrDefault(dude => dude.DesiredInstrumentKind == kind)
+			});
 	}
 
 	private void Start()
@@ -40,10 +80,36 @@ public class GameState : MonoBehaviour
 	public void OnGameStart()
 	{
 		Debug.Log("GameState starting game!");
-		
-		// player starts initially on the concert planet
-		SetPlayerCanTakeoff(false);
+
+		StartCoroutine(Tutorial_Start());
 	}
+
+	private IEnumerator Tutorial_Start()
+	{
+		// player starts initially on the concert planet
+		SetPlayerInteractive(true);
+		SetPlayerCanTakeoff(false);
+		helperBox.DisplayText(HelperBoxText.PlanetMovement);
+
+		// waits for the player to reach the NPC.
+		PlanetDude mikeOwner = instrumentStates[InstrumentKind.Microphone].Owner;
+		yield return new WaitForPlayerNearTarget(mikeOwner);
+
+		// dialog sequence.
+		helperBox.Hide();
+		SetPlayerInteractive(false);
+
+	}
+
+	//public void OnPlayerProximity(PlayerController player, GameObject gameObject)
+	//{
+
+	//}
+
+	//public void OnPlayerProximityEnd(PlayerController player, GameObject gameObject)
+	//{
+
+	//}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument)
 	{
@@ -64,8 +130,14 @@ public class GameState : MonoBehaviour
 	#region HUD / Gameplay
 	public void SetPlayerCanTakeoff(bool canTakeoff)
 	{
-		//player.canGoToSpace = canTakeoff;
+		player.canGoToSpace = canTakeoff;
 		fuelBar.gameObject.SetActive(canTakeoff);
+	}
+
+	public void SetPlayerInteractive(bool isInteractive)
+	{
+		player.canMove = isInteractive;
+		player.canUseActionKey = isInteractive;
 	}
 	#endregion
 }
