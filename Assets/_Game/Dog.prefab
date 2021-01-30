@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939862689892466814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.73, y: 0.59, z: 0}
+  m_LocalPosition: {x: -0.07, y: 0.34, z: 0}
   m_LocalScale: {x: 0.8018455, y: 0.8018455, z: 0.8018455}
   m_Children: []
   m_Father: {fileID: 9102650005679686969}
@@ -413,7 +413,7 @@ MonoBehaviour:
   speechBubblePrefab: {fileID: 113465863023541360, guid: f6eca5f523245304ab05fcd9f018b556,
     type: 3}
   dialogAnchor: {fileID: 4931215829334906409}
-  spawnDetached: 0
+  spawnDetached: 1
 --- !u!50 &9102650005679686971
 Rigidbody2D:
   serializedVersion: 4

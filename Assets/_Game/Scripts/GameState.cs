@@ -98,9 +98,23 @@ public class GameState : MonoBehaviour
 		// dialog sequence.
 		helperBox.Hide();
 		SetPlayerInteractive(false);
-		yield return StartCoroutine(RunDialog(mikeOwner.speaker,
-			("oh hi there!", 2f),
-			("i'm really sad :(", 3f)));
+		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Tiny);
+		yield return StartCoroutine(RunDialog(
+			(mikeOwner.speaker, "help!", 1f),
+			(player.speaker, "oh hi there!", 2f),
+			(mikeOwner.speaker, "hi! help!", 1f),
+			(null, null, 0.5f),
+			(player.speaker, "sorry I can't hear you...", 3f),
+			(mikeOwner.speaker, "...", 1f)));
+		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Small);
+		yield return StartCoroutine(RunDialog(
+			(mikeOwner.speaker, "HI! HELP!", 5f),
+			(player.speaker, "oh hi what's up?", 2f),
+			(mikeOwner.speaker, "I'm very sad :(", 1f),
+			(mikeOwner.speaker, "I lost my microphone!", 3f),
+			(player.speaker, "oh I'm sorry!", 2f),
+			(mikeOwner.speaker, "I can't sing without it!", 3f),
+			(mikeOwner.speaker, "please find it!", 2f)));
 	}
 
 	//public void OnPlayerProximity(PlayerController player, GameObject gameObject)
@@ -138,7 +152,10 @@ public class GameState : MonoBehaviour
 	{
 		foreach (var spec in lines)
 		{
-			spec.speaker.Speak(spec.line, spec.duration);
+			if (spec.speaker != null)
+			{
+				spec.speaker.Speak(spec.line, spec.duration); 
+			}
 			yield return new WaitForSeconds(spec.duration * 0.95f);
 			// spawn next dialog slightly before the last one faded out.
 		}

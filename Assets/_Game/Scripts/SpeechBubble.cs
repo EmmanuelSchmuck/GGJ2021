@@ -11,6 +11,12 @@ public class SpeechBubble : MonoBehaviour
 		set => textMesh.text = value;
 	}
 
+	public float FontSize
+	{
+		get => textMesh.fontSize;
+		set => textMesh.fontSize = value;
+	}
+
 	public TextMeshPro textMesh;
 	public AnimationCurve opacityOverLifetime;
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 
 [RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(Speaker))]
 public class PlayerController : MonoBehaviour
 {
 	public KeyCode actionKey = KeyCode.Space;
@@ -22,7 +23,8 @@ public class PlayerController : MonoBehaviour
 	public SpriteRenderer rocketFlame;
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
-	private Inventory m_inventory;
+	private Inventory m_Inventory;
+	private Speaker m_Speaker;
 	private List<Planet> planets;
 	public SpriteRenderer body;
 	private Planet currentPlanet;
@@ -47,11 +49,14 @@ public class PlayerController : MonoBehaviour
 	public event VoidEvent<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
 	public event System.Action<PlayerController,GameObject> ProximityEnter, ProximityLeave;
 
+	public Speaker speaker => m_Speaker;
+
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
 		m_Collider = GetComponent<Collider2D>();
-		m_inventory = GetComponent<Inventory>();
+		m_Inventory = GetComponent<Inventory>();
+		m_Speaker = GetComponent<Speaker>();
 		fuelBar = GameObject.FindObjectOfType<FuelBar>();
 		rocketFlame.enabled = false;
 		planets = GameObject.FindObjectsOfType<Planet>().ToList();
@@ -217,18 +222,18 @@ public class PlayerController : MonoBehaviour
 
 		if (Input.GetKeyDown(actionKey) && canUseActionKey)
 		{
-			if (m_inventory.IsFree)
+			if (m_Inventory.IsFree)
 			{
 				Collider2D[] colliders = Physics2D.OverlapCircleAll(catchPoint.position, catchRadius, catchLayerMask);
 				Item item = colliders.Select(c => c.GetComponent<Item>()).FirstOrDefault();
 				if (item != null) // catch
 				{
-					m_inventory.AcceptItem(item);
+					m_Inventory.AcceptItem(item);
 				}
 			}
 			else // release
 			{
-				m_inventory.DropItem();
+				m_Inventory.DropItem();
 			}
 
 			// lets other components do stuff.

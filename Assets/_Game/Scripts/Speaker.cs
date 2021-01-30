@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Speaker : MonoBehaviour
 {
-    public SpeechBubble speechBubblePrefab;
+	public enum FontSize
+	{
+		Regular,
+		Small,
+		Tiny
+	}
+
+	public SpeechBubble speechBubblePrefab;
 	public Transform dialogAnchor;
 	public bool spawnDetached;
 
 	private SpeechBubble currentBubble;
+	private float nextFontSize = 14;
 
     public void Speak(string text, float duration = 5f)
 	{
@@ -16,6 +24,7 @@ public class Speaker : MonoBehaviour
 		{
 			var bubble = Instantiate<SpeechBubble>(speechBubblePrefab);
 			bubble.Init(text, dialogAnchor, duration, !spawnDetached, transform.up);
+			bubble.FontSize = nextFontSize;
 
 			if (!spawnDetached)
 			{
@@ -25,6 +34,25 @@ public class Speaker : MonoBehaviour
 		else
 		{
 			currentBubble.Text = text;
+		}
+	}
+
+	public void SetFontSize(FontSize size)
+	{
+		switch (size)
+		{
+			case FontSize.Small:
+				nextFontSize = 7;
+				break;
+
+			case FontSize.Tiny:
+				nextFontSize = 4;
+				break;
+
+			case FontSize.Regular:
+			default:
+				nextFontSize = 14;
+				break;
 		}
 	}
 }
