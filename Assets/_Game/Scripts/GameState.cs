@@ -107,7 +107,7 @@ public class GameState : MonoBehaviour
 		private void OnPlayerLeftPlanet(PlayerController obj)
 		{
 			player.LeftPlanet -= OnPlayerLeftPlanet;
-			isPlayerInSpace = false;
+			isPlayerInSpace = true;
 		}
 
 		public override bool keepWaiting => !isPlayerInSpace;
@@ -227,7 +227,7 @@ public class GameState : MonoBehaviour
 
 		// final hints
 		helperBox.Hide();
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(3f);
 		helperBox.DisplayText(HelperBoxText.SpaceMovement);
 		yield return new WaitForSeconds(15f);
 		helperBox.Hide();
