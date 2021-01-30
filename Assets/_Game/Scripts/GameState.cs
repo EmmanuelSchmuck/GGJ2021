@@ -90,6 +90,28 @@ public class GameState : MonoBehaviour
 
 		public override bool keepWaiting => !instance.instrumentStates[kind].IsReturnedToOwner;
 	}
+
+	private class WaitForPlayerInSpace : CustomYieldInstruction
+	{
+		private readonly PlayerController player;
+
+		private bool isPlayerInSpace;
+
+		public WaitForPlayerInSpace()
+		{
+			this.player = instance.player;
+
+			player.LeftPlanet += OnPlayerLeftPlanet;
+		}
+
+		private void OnPlayerLeftPlanet(PlayerController obj)
+		{
+			player.LeftPlanet -= OnPlayerLeftPlanet;
+			isPlayerInSpace = false;
+		}
+
+		public override bool keepWaiting => !isPlayerInSpace;
+	}
 	#endregion
 
 	private void Awake()
@@ -122,13 +144,14 @@ public class GameState : MonoBehaviour
 	{
 		Debug.Log("GameState starting game!");
 
-		StartCoroutine(Tutorial_Start());
+		StartCoroutine(RunTutorial());
 	}
 
-	private IEnumerator Tutorial_Start()
+	private IEnumerator RunTutorial()
 	{
 		// player starts initially on the concert planet
-		SetPlayerInteractive(true);
+		SetPlayerInteractive(true, alsoActionKey: false);
+		SetPlayerCanUseActionKey(false);
 		SetPlayerCanTakeoff(false);
 		helperBox.DisplayText(HelperBoxText.PlanetMovement);
 
@@ -138,7 +161,7 @@ public class GameState : MonoBehaviour
 
 		// dialog sequence.
 		helperBox.Hide();
-		SetPlayerInteractive(false);
+		SetPlayerInteractive(false, alsoActionKey: false);
 		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Tiny);
 		yield return StartCoroutine(RunDialog(
 			(mikeOwner.speaker, "help!", 1f),
@@ -173,6 +196,41 @@ public class GameState : MonoBehaviour
 		// waits for player to give back item.
 		helperBox.DisplayText(HelperBoxText.GiveItem);
 		yield return new WaitForInstrumentReturned(InstrumentKind.Microphone);
+
+		// final dialog
+		helperBox.Hide();
+		SetPlayerInteractive(false);
+		yield return StartCoroutine(RunDialog(
+			(mikeOwner.speaker, "...", 2f)));
+		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Huge);
+		yield return StartCoroutine(RunDialog(
+			(mikeOwner.speaker, "WOW!!", 2f)));
+		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Big);
+		yield return StartCoroutine(RunDialog(
+			(mikeOwner.speaker, "Thanks!", 1f),
+			(mikeOwner.speaker, "Ready to rock!", 1f)));
+		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Regular);
+		yield return StartCoroutine(RunDialog(
+			(null, null, 0.5f),
+			(mikeOwner.speaker, "But wait...", 3f),
+			(mikeOwner.speaker, "My band...", 2f),
+			(mikeOwner.speaker, "Where are they?", 2f),
+			(null, null, 1f),
+			(mikeOwner.speaker, "...", 2f),
+			(mikeOwner.speaker, "Can you bring them back?", 3f)));
+		SetPlayerInteractive(true);
+
+		// wait for player to lift up in space
+		SetPlayerCanTakeoff(true);
+		helperBox.DisplayText(HelperBoxText.JumpToSpace);
+		yield return new WaitForPlayerInSpace();
+
+		// final hints
+		helperBox.Hide();
+		yield return new WaitForSeconds(1f);
+		helperBox.DisplayText(HelperBoxText.SpaceMovement);
+		yield return new WaitForSeconds(15f);
+		helperBox.Hide();
 	}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument)
@@ -222,10 +280,18 @@ public class GameState : MonoBehaviour
 		fuelBar.gameObject.SetActive(canTakeoff);
 	}
 
-	public void SetPlayerInteractive(bool isInteractive)
+	public void SetPlayerInteractive(bool isInteractive, bool alsoActionKey = true)
 	{
 		player.canMove = isInteractive;
-		player.canUseActionKey = isInteractive;
+		if (alsoActionKey)
+		{
+			player.canUseActionKey = isInteractive; 
+		}
+	}
+
+	public void SetPlayerCanUseActionKey(bool canUse)
+	{
+		player.canUseActionKey = canUse;
 	}
 	#endregion
 }

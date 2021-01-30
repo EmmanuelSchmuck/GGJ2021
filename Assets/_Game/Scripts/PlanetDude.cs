@@ -39,18 +39,18 @@ public class PlanetDude : MonoBehaviour
 					m_Inventory.AcceptItem(item);
 
 					// dialog.
-					m_Speaker.Speak("omg awesom");
+					//m_Speaker.Speak("omg awesom");
 				}
 				else
 				{
 					// dialog.
-					m_Speaker.Speak("not my stuff!");
+					//m_Speaker.Speak("not my stuff!");
 				}
 			}
 			else
 			{
 				// dialog.
-				m_Speaker.Speak("woot?");
+				//m_Speaker.Speak("woot?");
 			}
 		}
 	}

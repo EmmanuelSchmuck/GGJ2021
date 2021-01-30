@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
 	public float stepCycle;
 
-	public event System.Action<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
+	public event System.Action<PlayerController> ActionKeyDown, LeftPlanet, LandedOnPlanet;
 	public event System.Action<PlayerController,GameObject> ProximityEnter, ProximityLeave;
 
 	public Speaker speaker => m_Speaker;
@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
 		rocketFlame.enabled = false;
 		transform.SetParent(currentPlanet.transform);
 
-		LandOnPlanet?.Invoke(this);
+		LandedOnPlanet?.Invoke(this);
 		// yield return null;
 	}
 
@@ -207,7 +207,7 @@ public class PlayerController : MonoBehaviour
 		m_Rigidbody.velocity = 3 * planetCoreToDog.normalized;
 		currentPlanet = null;
 
-		LeavePlanet?.Invoke(this);
+		LeftPlanet?.Invoke(this);
 		// yield return null;
 	}
 

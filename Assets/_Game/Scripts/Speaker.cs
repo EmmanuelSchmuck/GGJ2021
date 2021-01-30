@@ -8,7 +8,9 @@ public class Speaker : MonoBehaviour
 	{
 		Regular,
 		Small,
-		Tiny
+		Tiny,
+		Big,
+		Huge
 	}
 
 	public SpeechBubble speechBubblePrefab;
@@ -47,6 +49,14 @@ public class Speaker : MonoBehaviour
 
 			case FontSize.Tiny:
 				nextFontSize = 4;
+				break;
+
+			case FontSize.Big:
+				nextFontSize = 18;
+				break;
+
+			case FontSize.Huge:
+				nextFontSize = 32;
 				break;
 
 			case FontSize.Regular:
