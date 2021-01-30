@@ -249,10 +249,31 @@ public class GameState : MonoBehaviour
 
 	private IEnumerator RunMainQuests()
 	{
+		// player is free now
 		SetPlayerInteractive(true);
 		SetPlayerCanTakeoff(true);
+		fuelBar.gameObject.SetActive(true);
+		helperBox.Hide();
+
+		// 
+		player.ProximityEnter += OnMainQuestPlayerProximityEnter;
 		
 		yield break;
+	}
+
+	private void OnMainQuestPlayerProximityEnter(PlayerController player, GameObject obj)
+	{
+		Instrument instrument = obj.GetComponent<Instrument>();
+		if (instrument != null)
+		{
+			InstrumentState state = instrumentStates[instrument.Kind];
+			if (!state.IsReturnedToOwner && state.IsHintDisplayable)
+			{
+				player.speaker.Speak($"hey! it's {(state.Kind != InstrumentKind.Sticks ? "a " : "")}{state.Kind.ToString().ToLower()}!");
+
+				state.IsHintDisplayable = false;
+			}
+		}
 	}
 
 	private IEnumerator RunFinale()

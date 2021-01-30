@@ -5,4 +5,5 @@ public class InstrumentState
 	public bool IsReturnedToOwner { get; set; }
 	public PlanetDude Owner { get; set; }
 	public Instrument Object { get; set; }
+	public bool IsHintDisplayable { get; set; } = true;
 }
