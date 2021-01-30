@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3641550763892167960
+--- !u!1001 &5766074293311432343
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,17 +10,22 @@ PrefabInstance:
     - target: {fileID: 8265284582239610648, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: m_Name
-      value: Parrot
+      value: Fox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5187055
+      value: 48.06818
       objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5781481
+      value: 1.0299673
       objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
@@ -47,25 +52,40 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265284582239610649, guid: 17335ea1936641a41b7a9c479b87b5de,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610650, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: DesiredInstrumentKind
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610724, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.25729796
+      value: 0.9237898
       objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610724, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.9245283
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8265284582239610724, guid: 17335ea1936641a41b7a9c479b87b5de,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.30981216
+      value: 0.3066038
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17335ea1936641a41b7a9c479b87b5de, type: 3}

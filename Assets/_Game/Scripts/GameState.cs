@@ -18,6 +18,10 @@ public class GameState : MonoBehaviour
 	public HelperBox helperBox;
 	#endregion
 
+	#region Config
+	public bool skipTutorial;
+	#endregion
+
 	#region State
 	private Dictionary<InstrumentKind, InstrumentState> instrumentStates;
 	#endregion
@@ -144,7 +148,14 @@ public class GameState : MonoBehaviour
 	{
 		Debug.Log("GameState starting game!");
 
-		StartCoroutine(RunTutorial());
+		if (!skipTutorial)
+		{
+			StartCoroutine(RunTutorial());
+		}
+		else
+		{
+			StartCoroutine(RunMainQuests());
+		}
 	}
 
 	private IEnumerator RunTutorial()
@@ -225,12 +236,23 @@ public class GameState : MonoBehaviour
 		helperBox.DisplayText(HelperBoxText.JumpToSpace);
 		yield return new WaitForPlayerLeavePlanet();
 
+		// start main quests
+		StartCoroutine(RunMainQuests());
+
 		// final hints
 		helperBox.Hide();
 		yield return new WaitForSeconds(3f);
 		helperBox.DisplayText(HelperBoxText.SpaceMovement);
 		yield return new WaitForSeconds(15f);
 		helperBox.Hide();
+	}
+
+	private IEnumerator RunMainQuests()
+	{
+		SetPlayerInteractive(true);
+		SetPlayerCanTakeoff(true);
+		
+		yield break;
 	}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument)
