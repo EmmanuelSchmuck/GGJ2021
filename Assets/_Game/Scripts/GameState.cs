@@ -30,7 +30,7 @@ public class GameState : MonoBehaviour
 
 		private bool isPlayerNearTarget;
 
-		public WaitForPlayerNearTarget(PlanetDude dude) : this(dude.gameObject) { }
+		public WaitForPlayerNearTarget(Component cmp) : this(cmp.gameObject) { }
 
 		public WaitForPlayerNearTarget(GameObject obj)
 		{
@@ -59,11 +59,13 @@ public class GameState : MonoBehaviour
 
 		// init substates
 		var owners = FindObjectsOfType<PlanetDude>();
+		var instrObjects = FindObjectsOfType<Instrument>();
 		instrumentStates = System.Enum.GetValues(typeof(InstrumentKind)).OfType<InstrumentKind>()
 			.ToDictionary(kind => kind, kind => new InstrumentState()
 			{
 				Kind = kind,
-				Owner = owners.FirstOrDefault(dude => dude.DesiredInstrumentKind == kind)
+				Owner = owners.FirstOrDefault(dude => dude.DesiredInstrumentKind == kind),
+				Object = instrObjects.FirstOrDefault(instru => instru.Kind == kind)
 			});
 	}
 
@@ -115,17 +117,15 @@ public class GameState : MonoBehaviour
 			(player.speaker, "oh I'm sorry!", 2f),
 			(mikeOwner.speaker, "I can't sing without it!", 3f),
 			(mikeOwner.speaker, "please find it!", 2f)));
+
+		// waits for player to be in reach of microphone
+		SetPlayerInteractive(true);
+		yield return new WaitForPlayerNearTarget(instrumentStates[InstrumentKind.Microphone].Object);
+
+		// waits for player to pick up.
+		helperBox.DisplayText(HelperBoxText.CatchItem);
+
 	}
-
-	//public void OnPlayerProximity(PlayerController player, GameObject gameObject)
-	//{
-
-	//}
-
-	//public void OnPlayerProximityEnd(PlayerController player, GameObject gameObject)
-	//{
-
-	//}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument)
 	{
