@@ -108,7 +108,7 @@ public class GameState : MonoBehaviour
 			(mikeOwner.speaker, "...", 1f)));
 		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Small);
 		yield return StartCoroutine(RunDialog(
-			(mikeOwner.speaker, "HI! HELP!", 5f),
+			(mikeOwner.speaker, "HI! HELP!", 2f),
 			(player.speaker, "oh hi what's up?", 2f),
 			(mikeOwner.speaker, "I'm very sad :(", 1f),
 			(mikeOwner.speaker, "I lost my microphone!", 3f),
