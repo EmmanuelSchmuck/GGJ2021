@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
 	public Speaker speaker => m_Speaker;
 	public Inventory inventory => m_Inventory;
 
+	private Vector3 baseBodyScale;
+
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -66,6 +68,8 @@ public class PlayerController : MonoBehaviour
 		fuelBar = GameObject.FindObjectOfType<FuelBar>();
 		rocketFlame.enabled = false;
 		planets = GameObject.FindObjectsOfType<Planet>().ToList();
+
+		baseBodyScale = body.transform.localScale;
 
 		currentFuel = startingFuel;
 		fuelBar?.SetFuel(currentFuel);
@@ -194,19 +198,21 @@ public class PlayerController : MonoBehaviour
 	{
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 		transform.SetParent(null);
-		body.transform.localScale = Vector3.one;
+		Planet p = currentPlanet;
+		currentPlanet = null;
+		body.transform.localScale = baseBodyScale;
+		// body.transform.localScale = Vector3.one;
 		yield return StartCoroutine(LerpPositionAndRotation(
-			currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f),
+			p.transform.position + (Vector3)planetCoreToDog.normalized * (p.Radius + altitudeOffset + planetaryModeDistance + 2f),
 			transform.rotation));
-		transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset + planetaryModeDistance + 2f);
+		transform.position = p.transform.position + (Vector3)planetCoreToDog.normalized * (p.Radius + altitudeOffset + planetaryModeDistance + 2f);
 		// m_Rigidbody.simulated = true;
 		m_Collider.isTrigger = false;
 		m_Rigidbody.velocity = Vector2.zero;
 		m_Rigidbody.angularVelocity = 0f;
 		// m_Rigidbody.inertia = 0;
 		m_Rigidbody.velocity = 3 * planetCoreToDog.normalized;
-		currentPlanet = null;
-
+	
 		LeftPlanet?.Invoke(this);
 		// yield return null;
 	}
@@ -273,7 +279,7 @@ public class PlayerController : MonoBehaviour
 			
 			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)
 			{
-				body.transform.localScale = new Vector3(movementInput.x*(invertDirectionOnPlanet ? -1 : +1)<0?1:-1,1,1);
+				body.transform.localScale = new Vector3((movementInput.x*(invertDirectionOnPlanet ? -1 : +1)<0?1:-1)*Mathf.Abs(body.transform.localScale.x),body.transform.localScale.y,body.transform.localScale.z);
 			}
 
 			lastMovementInput = movementInput;
