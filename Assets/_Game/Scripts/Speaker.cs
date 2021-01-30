@@ -15,7 +15,7 @@ public class Speaker : MonoBehaviour
 		if (currentBubble == null || spawnDetached)
 		{
 			var bubble = Instantiate<SpeechBubble>(speechBubblePrefab);
-			bubble.Init(text, dialogAnchor, 5f, !spawnDetached);
+			bubble.Init(text, dialogAnchor, 5f, !spawnDetached, transform.up);
 
 			if (!spawnDetached)
 			{

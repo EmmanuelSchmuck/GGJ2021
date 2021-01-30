@@ -18,7 +18,7 @@ public class SpeechBubble : MonoBehaviour
 	private float remainingTime;
 	private Vector3 driftDirection;
 
-	public void Init(string text, Transform target, float duration, bool attached = true)
+	public void Init(string text, Transform target, float duration, bool attached = true, Vector3? drift = null)
 	{
 		if (attached)
 		{
@@ -31,10 +31,9 @@ public class SpeechBubble : MonoBehaviour
 			// Stay in world space but take the position of the target.
 			transform.parent = null;
 			transform.position = target.position;
-
-			// Drift away to random pos.
-			driftDirection = Random.onUnitSphere;
 		}
+
+		this.driftDirection = drift ?? Random.onUnitSphere;
 
 		// Sets the content.
 		Text = text;
