@@ -148,6 +148,10 @@ public class GameState : MonoBehaviour
 	{
 		Debug.Log("GameState starting game!");
 
+		// sets up common handlers
+		player.ProximityEnter += TryDisplayInstrumentProximityHint;
+
+		// starts a quest 
 		if (!skipTutorial)
 		{
 			StartCoroutine(RunTutorial());
@@ -254,14 +258,11 @@ public class GameState : MonoBehaviour
 		SetPlayerCanTakeoff(true);
 		fuelBar.gameObject.SetActive(true);
 		helperBox.Hide();
-
-		// 
-		player.ProximityEnter += OnMainQuestPlayerProximityEnter;
 		
 		yield break;
 	}
 
-	private void OnMainQuestPlayerProximityEnter(PlayerController player, GameObject obj)
+	private void TryDisplayInstrumentProximityHint(PlayerController player, GameObject obj)
 	{
 		Instrument instrument = obj.GetComponent<Instrument>();
 		if (instrument != null)
@@ -299,13 +300,13 @@ public class GameState : MonoBehaviour
 		yield break;
 	}
 
-	private void Update()
-	{
-		if (Application.isEditor && Input.GetKeyDown(KeyCode.RightControl))
-		{
-			StartCoroutine(RunFinale());
-		}
-	}
+	//private void Update()
+	//{
+	//	if (Application.isEditor && Input.GetKeyDown(KeyCode.RightControl))
+	//	{
+	//		StartCoroutine(RunFinale());
+	//	}
+	//}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument)
 	{
