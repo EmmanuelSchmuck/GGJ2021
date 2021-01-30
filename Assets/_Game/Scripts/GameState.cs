@@ -152,6 +152,11 @@ public class GameState : MonoBehaviour
 	{
 		foreach (var spec in lines)
 		{
+			if (Input.GetKey(KeyCode.Backspace))
+			{
+				yield break;
+			}
+			
 			if (spec.speaker != null)
 			{
 				spec.speaker.Speak(spec.line, spec.duration); 
