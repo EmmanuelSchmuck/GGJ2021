@@ -6,5 +6,5 @@ public class Instrument : MonoBehaviour
 {
 	public InstrumentKind Kind;
 
-
+	public Item AsItem() => GetComponent<Item>();
 }

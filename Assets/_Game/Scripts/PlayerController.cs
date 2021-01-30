@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
 	public event System.Action<PlayerController,GameObject> ProximityEnter, ProximityLeave;
 
 	public Speaker speaker => m_Speaker;
+	public Inventory inventory => m_Inventory;
 
 	private void Awake()
 	{

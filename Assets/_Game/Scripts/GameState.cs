@@ -23,6 +23,33 @@ public class GameState : MonoBehaviour
 	#endregion
 
 	#region Extra Coroutines
+	private class WaitForPlayerGrabItem : CustomYieldInstruction
+	{
+		private readonly Item target;
+		private readonly PlayerController player;
+
+		private bool hasPlayerGrabbedItem;
+
+		public WaitForPlayerGrabItem(Item obj)
+		{
+			this.target = obj;
+			this.player = instance.player;
+
+			player.inventory.ItemAccepted += OnItemAccepted;
+		}
+
+		private void OnItemAccepted(Inventory inventory, Item item)
+		{
+			if (item != null && item == true)
+			{
+				player.inventory.ItemAccepted -= OnItemAccepted;
+				hasPlayerGrabbedItem = true;
+			}
+		}
+
+		public override bool keepWaiting => !hasPlayerGrabbedItem;
+	}
+
 	private class WaitForPlayerNearTarget : CustomYieldInstruction
 	{
 		private readonly GameObject target;
@@ -51,6 +78,18 @@ public class GameState : MonoBehaviour
 
 		public override bool keepWaiting => !isPlayerNearTarget;
 	} 
+
+	private class WaitForInstrumentReturned : CustomYieldInstruction
+	{
+		private readonly InstrumentKind kind;
+
+		public WaitForInstrumentReturned(InstrumentKind kind)
+		{
+			this.kind = kind;
+		}
+
+		public override bool keepWaiting => !instance.instrumentStates[kind].IsReturnedToOwner;
+	}
 	#endregion
 
 	private void Awake()
@@ -120,11 +159,20 @@ public class GameState : MonoBehaviour
 
 		// waits for player to be in reach of microphone
 		SetPlayerInteractive(true);
-		yield return new WaitForPlayerNearTarget(instrumentStates[InstrumentKind.Microphone].Object);
+		var mikeObject = instrumentStates[InstrumentKind.Microphone].Object;
+		yield return new WaitForPlayerNearTarget(mikeObject);
 
 		// waits for player to pick up.
 		helperBox.DisplayText(HelperBoxText.CatchItem);
+		yield return new WaitForPlayerGrabItem(mikeObject.AsItem());
 
+		// waits for player to be close to NPC.
+		helperBox.Hide();
+		yield return new WaitForPlayerNearTarget(mikeOwner);
+
+		// waits for player to give back item.
+		helperBox.DisplayText(HelperBoxText.GiveItem);
+		yield return new WaitForInstrumentReturned(InstrumentKind.Microphone);
 	}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument)

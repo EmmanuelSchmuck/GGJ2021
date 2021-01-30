@@ -11,6 +11,8 @@ public class Inventory : MonoBehaviour
 
     private Item currentItem;
 
+	public event System.Action<Inventory, Item> ItemAccepted, ItemDropped;
+
     public bool IsFree => currentItem == null;
 
     public void AcceptItem(Item item)
@@ -25,6 +27,8 @@ public class Inventory : MonoBehaviour
 		currentItem = item;
 		currentItem.OnCatch(itemAnchor);
 
+		ItemAccepted?.Invoke(this, item);
+
 		Debug.Log($"{gameObject.name} accepted {item.gameObject.name}");
 	}
 
@@ -38,8 +42,11 @@ public class Inventory : MonoBehaviour
 		{
 			Debug.Log($"{gameObject.name} dropped {currentItem.gameObject.name}");
 
+			var item = currentItem;
 			currentItem.OnRelease();
 			currentItem = null;
+
+			ItemDropped?.Invoke(this, item);
 		}
 	}
 }
