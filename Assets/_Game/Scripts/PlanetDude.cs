@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Speaker))]
 public class PlanetDude : MonoBehaviour
 {
+	public Speaker speaker => m_Speaker;
+	
 	public InstrumentKind DesiredInstrumentKind;
 
 	private Inventory m_Inventory;

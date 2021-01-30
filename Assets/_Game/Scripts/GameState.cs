@@ -98,7 +98,9 @@ public class GameState : MonoBehaviour
 		// dialog sequence.
 		helperBox.Hide();
 		SetPlayerInteractive(false);
-
+		yield return StartCoroutine(RunDialog(mikeOwner.speaker,
+			("oh hi there!", 1f),
+			("i'm really sad :(", 2f)));
 	}
 
 	//public void OnPlayerProximity(PlayerController player, GameObject gameObject)
@@ -123,6 +125,21 @@ public class GameState : MonoBehaviour
 		if (remaining == 0)
 		{
 			Debug.Log("WIN!!");
+		}
+	}
+	#endregion
+
+	#region Dialogs
+
+	private IEnumerator RunDialog(Speaker speaker, params (string line, float duration)[] lines) 
+		=> RunDialog(lines.Select(l => (speaker, l.line, l.duration)).ToArray());
+
+	private IEnumerator RunDialog(params (Speaker speaker, string line, float duration)[] lines)
+	{
+		foreach (var spec in lines)
+		{
+			spec.speaker.Speak(spec.line);
+			yield return new WaitForSeconds(spec.duration);
 		}
 	}
 	#endregion
