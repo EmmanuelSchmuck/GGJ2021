@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c06af4fc38c7074a89d679971c2c1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Kind: 0
+  Kind: 3
 --- !u!1001 &701312988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -449,6 +449,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlanetDude Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 1363024218225987327, guid: fb4e1a38cf2fe244285950595015e440,
+        type: 3}
+      propertyPath: DesiredInstrumentKind
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4978761704822703085, guid: fb4e1a38cf2fe244285950595015e440,
         type: 3}

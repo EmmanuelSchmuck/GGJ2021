@@ -1,6 +1,7 @@
 ﻿public enum InstrumentKind
 {
+	Microphone,
 	Ukulele,
-	Djembe,
-	Violin
+	Sticks,
+	Harmonica
 }
