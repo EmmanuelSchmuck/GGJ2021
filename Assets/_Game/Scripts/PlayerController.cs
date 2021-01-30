@@ -294,6 +294,16 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void OnProximityEnter(GameObject go)
+	{
+		ProximityEnter?.Invoke(this,go);
+	}
+
+	public void OnProximityLeave(GameObject go)
+	{
+		ProximityLeave?.Invoke(this,go);
+	}
+
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		Bone bone = other.GetComponent<Bone>();
@@ -303,20 +313,5 @@ public class PlayerController : MonoBehaviour
 			currentFuel += Mathf.Lerp(bone.extraFuelMin, bone.extraFuelMax, 1f-currentFuel);
 			StartCoroutine(BoneEffect(bone.speedBoostIntensity, bone.speedBoostDuration));
 		}
-
-		Debug.Log($"Dog enter trigger: {other.gameObject.name}");
-		ProximityEnter?.Invoke(this,other.gameObject);
-	}
-
-	private void OnTriggerExit2D(Collider2D other)
-	{
-		Debug.Log($"Dog exit trigger: {other.gameObject.name}");
-		ProximityLeave?.Invoke(this,other.gameObject);
-	}
-
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.magenta;
-		Gizmos.DrawWireSphere(catchPoint.position, catchRadius);
 	}
 }
