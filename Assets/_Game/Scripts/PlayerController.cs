@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
 	public float stepCycle;
 
-	public event VoidEvent<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
+	public event System.Action<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
 	public event System.Action<PlayerController,GameObject> ProximityEnter, ProximityLeave;
 
 	public Speaker speaker => m_Speaker;
