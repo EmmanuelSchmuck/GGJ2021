@@ -255,6 +255,37 @@ public class GameState : MonoBehaviour
 		yield break;
 	}
 
+	private IEnumerator RunFinale()
+	{
+		// everybody on the concert planet
+
+		// player is now non interactive
+		SetPlayerInteractive(false);
+		SetPlayerCanTakeoff(false);
+
+		// teleport everyone to their final destinations.
+		var teleporters = FindObjectsOfType<Teleporter>()
+			.Where(t => t.sourceObject.gameObject == player.gameObject
+			|| instrumentStates.Values.Any(inst => inst.Owner.gameObject == t.sourceObject.gameObject));
+		foreach (var teleporter in teleporters)
+		{
+			Debug.Log(teleporter);
+			teleporter.TeleportAtChild();
+		}
+
+		// teleport instruments to their owners.
+
+		yield break;
+	}
+
+	private void Update()
+	{
+		if (Application.isEditor && Input.GetKeyDown(KeyCode.RightControl))
+		{
+			StartCoroutine(RunFinale());
+		}
+	}
+
 	public void OnItemReturnedToOwner(InstrumentKind instrument)
 	{
 		// updates state
