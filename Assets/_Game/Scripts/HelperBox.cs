@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Linq;
 
 public class HelperBox : MonoBehaviour
 {
-	[SerializeField]
-	private List<GameObject> textBoxes;
+	
+	[SerializeField] private List<GameObject> textBoxes;
 	public static HelperBox Instance;
 	private void Awake()
 	{
 		Instance = this;
+		Hide();
+		// DisplayText(HelperBoxText.CatchItem);
 	}
+
 	public void Hide()
 	{
 		foreach(GameObject textbox in textBoxes)
