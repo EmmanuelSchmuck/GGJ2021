@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5384226930372383072}
   - component: {fileID: 1363024218225987201}
   - component: {fileID: 1363024218225987326}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlanetDude
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6083393395891515661}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DialogAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6996412808347719486}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ItemAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

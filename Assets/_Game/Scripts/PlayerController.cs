@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
 	private bool hasHelperBone;
 
 	public event VoidEvent<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
+	public event System.Action<PlayerController,GameObject> ProximiyEnter, ProximityLeave;
 
 	private void Awake()
 	{
@@ -289,6 +290,15 @@ public class PlayerController : MonoBehaviour
 			currentFuel += Mathf.Lerp(bone.extraFuelMin, bone.extraFuelMax, 1f-currentFuel);
 			StartCoroutine(BoneEffect(bone.speedBoostIntensity, bone.speedBoostDuration));
 		}
+
+		Debug.Log($"Dog enter trigger: {other.gameObject.name}");
+		ProximiyEnter?.Invoke(this,other.gameObject);
+	}
+
+	private void OnTriggerExit2D(Collider2D other)
+	{
+		Debug.Log($"Dog exit trigger: {other.gameObject.name}");
+		ProximityLeave?.Invoke(this,other.gameObject);
 	}
 
 	private void OnDrawGizmos()
