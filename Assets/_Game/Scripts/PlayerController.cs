@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
 
 	private bool hasHelperBone;
 
+	public event VoidEvent<PlayerController> ActionKeyDown;
+
 	private void Awake()
 	{
 		m_Rigidbody = GetComponent<Rigidbody2D>();
@@ -237,7 +239,7 @@ public class PlayerController : MonoBehaviour
 			}
 
 			// lets other components do stuff.
-			SendMessage("OnPlayerActionKeyDown", SendMessageOptions.DontRequireReceiver);
+			ActionKeyDown?.Invoke(this);
 		}
 
 		if (currentPlanet != null && Input.GetKeyDown(KeyCode.UpArrow) && !isAnimating)

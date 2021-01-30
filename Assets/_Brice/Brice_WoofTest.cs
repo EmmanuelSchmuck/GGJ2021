@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Brice_WoofTest : MonoBehaviour
 {
-    public void OnPlayerActionKeyDown()
+	private void Awake()
+	{
+		GetComponent<PlayerController>().ActionKeyDown += OnPlayerActionKeyDown;
+	}
+
+	public void OnPlayerActionKeyDown(PlayerController player)
 	{
 		GetComponent<Speaker>().Speak("woof");
 	}
