@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
 	private bool hasHelperBone;
 
-	public event VoidEvent<PlayerController> ActionKeyDown;
+	public event VoidEvent<PlayerController> ActionKeyDown, LeavePlanet, LandOnPlanet;
 
 	private void Awake()
 	{
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
 				}
 				if (toPlanet.magnitude - planet.Radius < planetaryModeDistance && currentPlanet == null && !isAnimating)
 				{
-					StartCoroutine(LandOnPlanet(planet));
+					StartCoroutine(LandingOnPlanet(planet));
 				}
 			}
 		}
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
 		
 	}
 
-	private IEnumerator LandOnPlanet(Planet planet)
+	private IEnumerator LandingOnPlanet(Planet planet)
 	{
 		currentPlanet = planet;
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
@@ -167,6 +167,8 @@ public class PlayerController : MonoBehaviour
 		m_Collider.isTrigger = false;
 		rocketFlame.enabled = false;
 		transform.SetParent(currentPlanet.transform);
+
+		LandOnPlanet?.Invoke(this);
 		// yield return null;
 	}
 
@@ -188,7 +190,7 @@ public class PlayerController : MonoBehaviour
 		isAnimating = false;
 	}
 
-	private IEnumerator LeavePlanet()
+	private IEnumerator LeavingPlanet()
 	{
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 		transform.SetParent(null);
@@ -204,6 +206,8 @@ public class PlayerController : MonoBehaviour
 		// m_Rigidbody.inertia = 0;
 		m_Rigidbody.velocity = 3 * planetCoreToDog.normalized;
 		currentPlanet = null;
+		
+		LeavePlanet?.Invoke(this);
 		// yield return null;
 	}
 
@@ -244,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
 		if (currentPlanet != null && Input.GetKeyDown(KeyCode.UpArrow) && !isAnimating)
 		{
-			StartCoroutine(LeavePlanet());
+			StartCoroutine(LeavingPlanet());
 		}
 	}
 
