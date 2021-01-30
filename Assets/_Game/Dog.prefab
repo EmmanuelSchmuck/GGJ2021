@@ -379,6 +379,9 @@ MonoBehaviour:
   startingFuel: 0.66
   minFuel: 0.1
   fuelConsumptionRate: 0.033
+  canMove: 1
+  canGoToSpace: 1
+  canUseActionKey: 1
   bonePrefab: {fileID: 5661681900338020270, guid: 35c39794480a515499a0d51acf1c3dbf,
     type: 3}
 --- !u!114 &1229794469356971783
@@ -409,6 +412,7 @@ MonoBehaviour:
   speechBubblePrefab: {fileID: 113465863023541360, guid: f6eca5f523245304ab05fcd9f018b556,
     type: 3}
   dialogAnchor: {fileID: 4931215829334906409}
+  spawnDetached: 0
 --- !u!50 &9102650005679686971
 Rigidbody2D:
   serializedVersion: 4

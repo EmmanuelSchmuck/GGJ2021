@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
 	public float fuelConsumptionRate;
 	private float currentFuel;
 
+	public bool canMove;
+	public bool canGoToSpace;
+	public bool canUseActionKey;
+
 	public GameObject bonePrefab;
 
 	private bool hasHelperBone;
@@ -61,6 +65,7 @@ public class PlayerController : MonoBehaviour
 		if(isAnimating) return;
 
 		Vector2 movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+		movementInput *= canMove ? 1 : 0;
 
 		if (currentPlanet == null) // in space
 		{
@@ -93,27 +98,10 @@ public class PlayerController : MonoBehaviour
 		}
 		else // on planet
 		{
-			if(lastMovementInput.x * movementInput.x < Mathf.Epsilon)
-			{
-				invertDirectionOnPlanet = useDirectionInvertionBelowPlanet && transform.position.y - currentPlanet.transform.position.y < 0;
-			}
-			// movementInput *= invertDirectionOnPlanet ? -1 : +1;
-			Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
-			float altitude = planetCoreToDog.magnitude - currentPlanet.Radius;
-			Vector2 movement = Vector3.Cross(Vector3.back, planetCoreToDog.normalized) * movementInput.x * movementSpeedOnPlanet;
-			movement *= invertDirectionOnPlanet ? -1 : +1;
-			transform.position += (Vector3)movement * Time.deltaTime;
-			planetCoreToDog = transform.position - currentPlanet.transform.position;
-			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset);
-			transform.rotation = Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up));
 			
-			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)
-			{
-				body.transform.localScale = new Vector3(movementInput.x*(invertDirectionOnPlanet ? -1 : +1)<0?1:-1,1,1);
-			}
 		}
 
-		lastMovementInput = movementInput;
+		
 	}
 
 	private IEnumerator SpawnHelperBone()
@@ -206,7 +194,7 @@ public class PlayerController : MonoBehaviour
 		// m_Rigidbody.inertia = 0;
 		m_Rigidbody.velocity = 3 * planetCoreToDog.normalized;
 		currentPlanet = null;
-		
+
 		LeavePlanet?.Invoke(this);
 		// yield return null;
 	}
@@ -226,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
 		if(isAnimating) return;
 
-		if (Input.GetKeyDown(actionKey))
+		if (Input.GetKeyDown(actionKey) && canUseActionKey)
 		{
 			if (m_inventory.IsFree)
 			{
@@ -246,9 +234,35 @@ public class PlayerController : MonoBehaviour
 			ActionKeyDown?.Invoke(this);
 		}
 
-		if (currentPlanet != null && Input.GetKeyDown(KeyCode.UpArrow) && !isAnimating)
+		if (canGoToSpace && currentPlanet != null && Input.GetKeyDown(KeyCode.UpArrow) && !isAnimating)
 		{
 			StartCoroutine(LeavingPlanet());
+		}
+
+		if(currentPlanet != null)
+		{
+			Vector2 movementInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+			movementInput *= canMove ? 1 : 0;
+			if(lastMovementInput.x * movementInput.x < Mathf.Epsilon)
+			{
+				invertDirectionOnPlanet = useDirectionInvertionBelowPlanet && transform.position.y - currentPlanet.transform.position.y < 0;
+			}
+			// movementInput *= invertDirectionOnPlanet ? -1 : +1;
+			Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
+			float altitude = planetCoreToDog.magnitude - currentPlanet.Radius;
+			Vector2 movement = Vector3.Cross(Vector3.back, planetCoreToDog.normalized) * movementInput.x * movementSpeedOnPlanet;
+			movement *= invertDirectionOnPlanet ? -1 : +1;
+			transform.position += (Vector3)movement * Time.deltaTime;
+			planetCoreToDog = transform.position - currentPlanet.transform.position;
+			transform.position = currentPlanet.transform.position + (Vector3)planetCoreToDog.normalized * (currentPlanet.Radius + altitudeOffset);
+			transform.rotation = Quaternion.Euler(0, 0, 180 - Vector2.SignedAngle(-planetCoreToDog.normalized, Vector2.up));
+			
+			if (Mathf.Abs(movementInput.x) > Mathf.Epsilon)
+			{
+				body.transform.localScale = new Vector3(movementInput.x*(invertDirectionOnPlanet ? -1 : +1)<0?1:-1,1,1);
+			}
+
+			lastMovementInput = movementInput;
 		}
 	}
 
