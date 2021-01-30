@@ -11,8 +11,10 @@ public class MenuController : MonoBehaviour
 
 	private void Start()
 	{
-		// if(fadeOnEnter) ScreenFader.Instance?.Fade(Color.black, Color.clear,fadeDuration);
+		Cursor.visible = true;
+		Cursor.lockState = CursorLockMode.None;
 	}
+	
     public void LoadScene(string sceneName)
 	{
 		Debug.Log($"Loading scene {sceneName}");
