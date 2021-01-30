@@ -9,6 +9,7 @@ public class PlanetDude : MonoBehaviour
 	public Speaker speaker => m_Speaker;
 	
 	public InstrumentKind DesiredInstrumentKind;
+	public float maxDropAgeForResponse = 5f;
 
 	private Inventory m_Inventory;
 	private Speaker m_Speaker;
@@ -33,18 +34,18 @@ public class PlanetDude : MonoBehaviour
 				if (instrument.Kind == DesiredInstrumentKind)
 				{
 					// updates game state.
-					GameState.Instance.OnItemReturnedToOwner(DesiredInstrumentKind);
+					GameState.Instance.OnItemReturnedToOwner(DesiredInstrumentKind, this);
 
 					// take the item.
 					m_Inventory.AcceptItem(item);
-
-					// dialog.
-					//m_Speaker.Speak("omg awesom");
 				}
 				else
 				{
-					// dialog.
-					//m_Speaker.Speak("not my stuff!");
+					// shows dialog if this can be interpreted as intentional from the player
+					if (Time.time - item.lastTimeOfDrop < maxDropAgeForResponse)
+					{
+						GameState.Instance.OnItemDeniedByCharacter(instrument.Kind, this);
+					}
 				}
 			}
 			else

@@ -277,6 +277,22 @@ public class GameState : MonoBehaviour
 		}
 	}
 
+	private IEnumerator RunDialogForItemReturned(InstrumentKind instrument, PlanetDude owner)
+	{
+		if (instrument != InstrumentKind.Microphone) // not in tutorial
+		{
+			yield return StartCoroutine(RunDialog((owner.speaker, "omg awesome!", 5f)));
+		}
+	}
+
+	private IEnumerator RunDialogForItemDenied(InstrumentKind instrument, PlanetDude character)
+	{
+		if (instrument != InstrumentKind.Microphone) // not in tutorial
+		{
+			yield return StartCoroutine(RunDialog((character.speaker, "that's not my stuff!", 3f)));
+		}
+	}
+
 	private IEnumerator RunFinale()
 	{
 		// everybody on the concert planet
@@ -308,10 +324,13 @@ public class GameState : MonoBehaviour
 	//	}
 	//}
 
-	public void OnItemReturnedToOwner(InstrumentKind instrument)
+	public void OnItemReturnedToOwner(InstrumentKind instrument, PlanetDude owner)
 	{
 		// updates state
 		instrumentStates[instrument].IsReturnedToOwner = true;
+
+		// dialog
+		StartCoroutine(RunDialogForItemReturned(instrument, owner));
 
 		int remaining = instrumentStates.Values.Count(state => !state.IsReturnedToOwner);
 		Debug.Log($"Instrument {instrument} was returned to owner, {remaining} remaining.");
@@ -321,6 +340,12 @@ public class GameState : MonoBehaviour
 		{
 			Debug.Log("WIN!!");
 		}
+	}
+
+	public void OnItemDeniedByCharacter(InstrumentKind kind, PlanetDude character)
+	{
+		// dialog
+		StartCoroutine(RunDialogForItemDenied(kind, character));
 	}
 	#endregion
 

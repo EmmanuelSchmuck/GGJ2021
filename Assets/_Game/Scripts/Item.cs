@@ -10,6 +10,7 @@ public class Item : MonoBehaviour
 	public float movementAnimationDuration = 0.5f;
 	public AnimationCurve movementAnimationCurve;
 	public int CatchCount; // how many time was I caught by the dog
+	public float lastTimeOfDrop { get; set; }
 
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
@@ -59,5 +60,6 @@ public class Item : MonoBehaviour
 		transform.SetParent(null);
 		m_Collider.enabled = true;
 		m_Rigidbody.simulated = true;
+		lastTimeOfDrop = Time.time;
 	}
 }
