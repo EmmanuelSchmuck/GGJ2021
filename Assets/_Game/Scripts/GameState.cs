@@ -9,7 +9,7 @@ public class GameState : MonoBehaviour
 {
 	#region Static
 	private static GameState instance;
-	public static GameState Instance => instance ?? (instance = FindObjectOfType<GameState>());
+	public static GameState Instance => instance ?? FindObjectOfType<GameState>();
 	#endregion
 
 	#region Scene Deps
@@ -123,7 +123,7 @@ public class GameState : MonoBehaviour
 
 	private void Awake()
 	{
-		instance = instance ?? this;
+		instance = this;
 
 		// init substates
 		var owners = FindObjectsOfType<PlanetDude>();
