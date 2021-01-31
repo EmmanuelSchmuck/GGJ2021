@@ -294,7 +294,12 @@ public class GameState : MonoBehaviour
 		}
 	}
 
-	private IEnumerator RunDialogForFirstEncounter(PlanetDude owner)
+	private IEnumerator RunShowThenHideHintBox(HelperBoxText text, float duration)
+	{
+		helperBox.DisplayText(text);
+		yield return new WaitForSeconds(duration);
+		helperBox.Hide();
+	}
 	{
 		InstrumentState state = instrumentStates[owner.DesiredInstrumentKind];
 		if (state.Kind != InstrumentKind.Microphone && !state.IsIntroduced) // not in tutorial
