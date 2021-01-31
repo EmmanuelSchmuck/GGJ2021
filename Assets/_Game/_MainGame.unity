@@ -11045,6 +11045,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 5781972611367240515, guid: cfaeb1f8ba0814c4eb8c15c570e432d0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5781972611367240516, guid: cfaeb1f8ba0814c4eb8c15c570e432d0,
         type: 3}
       propertyPath: orthographic size
@@ -17826,6 +17831,20 @@ Transform:
   m_Father: {fileID: 1793764927}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1278885026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9102650005679686975, guid: 9ddc072a9a5577f4e9645bbb48bf1a05,
+    type: 3}
+  m_PrefabInstance: {fileID: 9102650005232749365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!81 &1278885032
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278885026}
+  m_Enabled: 1
 --- !u!4 &1286840312 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5661681900338020256, guid: 35c39794480a515499a0d51acf1c3dbf,
@@ -30034,7 +30053,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 9102650005232749365}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1278885026}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 395a842a662edd443960f26605f0bc97, type: 3}

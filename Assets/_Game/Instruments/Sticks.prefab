@@ -173,6 +173,17 @@ PrefabInstance:
       propertyPath: Kind
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8861593745430855224, guid: d5dbca9deac80734ca0d847284bc3905,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 87eda3714b3a7224da4bc828d7ea708b, type: 3}
+    - target: {fileID: 8861593745430855224, guid: d5dbca9deac80734ca0d847284bc3905,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 6327953637623400998, guid: eb57100015a74844b87a0d4b2d60a59d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d5dbca9deac80734ca0d847284bc3905, type: 3}
 --- !u!4 &4543520934613442719 stripped
