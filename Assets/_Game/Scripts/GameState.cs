@@ -190,21 +190,20 @@ public class GameState : MonoBehaviour
 		SetPlayerInteractive(false, alsoActionKey: false);
 		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Tiny);
 		yield return StartCoroutine(RunDialog(
-			(mikeOwner.speaker, "help!", 1f),
-			(player.speaker, "oh hi there!", 2f),
-			(mikeOwner.speaker, "hi! help!", 1f),
+			(mikeOwner.speaker, "Help!", 1f),
+			(player.speaker, "Oh hi there!", 2f),
+			(mikeOwner.speaker, "Hi! Help!", 1f),
 			(null, null, 0.5f),
-			(player.speaker, "sorry I can't hear you...", 3f),
+			(player.speaker, "Sorry I can't hear you...", 3f),
 			(mikeOwner.speaker, "...", 1f)));
 		mikeOwner.speaker.SetFontSize(Speaker.FontSize.Small);
 		yield return StartCoroutine(RunDialog(
 			(mikeOwner.speaker, "HI! HELP!", 2f),
-			(player.speaker, "oh hi what's up?", 2f),
 			(mikeOwner.speaker, "I'm very sad :(", 1f),
 			(mikeOwner.speaker, "I lost my microphone!", 3f),
-			(player.speaker, "oh I'm sorry!", 2f),
+			(player.speaker, "Oh I'm sorry!", 2f),
 			(mikeOwner.speaker, "I can't sing without it!", 3f),
-			(mikeOwner.speaker, "please find it!", 2f)));
+			(mikeOwner.speaker, "Please find it!", 2f)));
 		instrumentStates[InstrumentKind.Microphone].IsIntroduced = true;
 
 		// waits for player to be in reach of microphone
