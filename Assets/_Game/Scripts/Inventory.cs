@@ -15,6 +15,8 @@ public class Inventory : MonoBehaviour
 
     public bool IsFree => currentItem == null;
 
+	public Instrument CurrentInstrument => currentItem == null ? null : currentItem.GetComponent<Instrument>();
+
     public void AcceptItem(Item item)
 	{
 		// Drop existing item.

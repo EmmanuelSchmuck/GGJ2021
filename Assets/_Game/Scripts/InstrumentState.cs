@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public class InstrumentState
 {
 	public InstrumentKind Kind { get; set; }
@@ -7,4 +9,5 @@ public class InstrumentState
 	public Instrument Object { get; set; }
 	public bool IsHintDisplayable { get; set; } = true;
 	public bool IsIntroduced { get; set; }
+	public Coroutine OwnerCurrentDialog { get; set; }
 }
