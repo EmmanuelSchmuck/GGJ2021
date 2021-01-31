@@ -30,6 +30,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Instrument
       objectReference: {fileID: 0}
+    - target: {fileID: 5847561890980010428, guid: 1a1071f1eb2b7f64b8691394a2a6d675,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5847561890980010430, guid: 1a1071f1eb2b7f64b8691394a2a6d675,
         type: 3}
       propertyPath: m_Color.b
