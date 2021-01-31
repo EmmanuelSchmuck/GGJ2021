@@ -6390,7 +6390,7 @@ MonoBehaviour:
   fuelBar: {fileID: 3165013105722762480}
   helperBox: {fileID: 1291540490}
   concertBannerText: {fileID: 1671927579}
-  skipTutorial: 1
+  skipTutorial: 0
 --- !u!4 &495862997
 Transform:
   m_ObjectHideFlags: 0
