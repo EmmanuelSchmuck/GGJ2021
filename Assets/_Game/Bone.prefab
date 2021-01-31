@@ -96,9 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   extraFuelMin: 0.1
-  extraFuelMax: 0.33
+  extraFuelMax: 0.25
   speedBoostIntensity: 10
-  speedBoostDuration: 8
+  speedBoostDuration: 6
   rotationSpeed: 55
 --- !u!58 &5661681900338020258
 CircleCollider2D:
