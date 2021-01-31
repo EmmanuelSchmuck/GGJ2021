@@ -275,7 +275,7 @@ public class PlayerController : MonoBehaviour
 			}
 			else // release
 			{
-				m_Inventory.DropItem();
+				m_Inventory.DropItem(currentPlanet == null ? null : currentPlanet.transform);
 			}
 
 			// lets other components do stuff.

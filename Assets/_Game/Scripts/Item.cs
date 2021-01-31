@@ -57,9 +57,9 @@ public class Item : MonoBehaviour
 		// transform.localPosition = Vector3.zero;
 	}
 
-	public void OnRelease()
+	public void OnRelease(Transform newParent = null)
 	{
-		transform.SetParent(null);
+		transform.SetParent(newParent);
 		m_Collider.enabled = true;
 		m_Rigidbody.simulated = true;
 		lastTimeOfDrop = Time.time;

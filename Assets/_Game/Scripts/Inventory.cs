@@ -34,7 +34,7 @@ public class Inventory : MonoBehaviour
 		Debug.Log($"{gameObject.name} accepted {item.gameObject.name}");
 	}
 
-    public void DropItem()
+    public void DropItem(Transform newParent = null)
 	{
 		if (currentItem == null)
 		{
@@ -45,7 +45,7 @@ public class Inventory : MonoBehaviour
 			Debug.Log($"{gameObject.name} dropped {currentItem.gameObject.name}");
 
 			var item = currentItem;
-			currentItem.OnRelease();
+			currentItem.OnRelease(newParent);
 			currentItem = null;
 
 			ItemDropped?.Invoke(this, item);
