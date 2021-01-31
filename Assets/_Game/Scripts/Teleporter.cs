@@ -12,5 +12,9 @@ public class Teleporter : MonoBehaviour
         sourceObject.parent = targetAnchor != null ? targetAnchor : this.transform;
         sourceObject.localPosition = Vector3.zero;
         sourceObject.localEulerAngles = Vector3.zero;
+		if(sourceObject.GetComponentInParent<PlayerController>()!=null)
+		{
+			sourceObject.GetComponentInParent<PlayerController>().HandleEnding(); 
+		}
 	}
 }

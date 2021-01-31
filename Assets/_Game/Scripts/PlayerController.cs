@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 	private Speaker m_Speaker;
 	private List<Planet> planets;
 	public SpriteRenderer body;
-	private Planet currentPlanet;
+	public Planet currentPlanet;
 	private bool jumpBuffered;
 	private bool isAnimating;
 	private bool invertDirectionOnPlanet;
@@ -60,6 +60,19 @@ public class PlayerController : MonoBehaviour
 	public Inventory inventory => m_Inventory;
 
 	private Vector3 baseBodyScale;
+
+	public Planet concertPlanet;
+
+	public void HandleEnding()
+	{
+		currentPlanet = concertPlanet;
+				m_Rigidbody.velocity = Vector2.zero;
+		m_Rigidbody.angularVelocity = 0f;
+		// m_Rigidbody.inertia = 0;
+		m_Collider.isTrigger = false;
+		rocketFlame.enabled = false;
+		transform.SetParent(currentPlanet.transform);
+	} 
 
 	private void Awake()
 	{
