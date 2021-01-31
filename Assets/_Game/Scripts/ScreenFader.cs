@@ -34,7 +34,7 @@ public class ScreenFader : MonoBehaviour
 		while(timer<duration)
 		{
 			yield return new WaitForSecondsRealtime(0.01f);
-			timer += Time.deltaTime;
+			timer += 0.01f;
 			alpha = easingCurve.Evaluate(timer/duration);
 			image.color = Color.Lerp(from, to, alpha);
 		}

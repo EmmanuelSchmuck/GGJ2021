@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
+	public AudioSource endingSong;
 	public Planet concertPlanet;
 	#region Static
 	private static GameState instance;
@@ -419,6 +420,10 @@ public class GameState : MonoBehaviour
 			Debug.Log(teleporter);
 			teleporter.TeleportAtChild();
 		}
+		foreach(Instrument inst in GameObject.FindObjectsOfType<Instrument>())
+		{
+			inst.GetComponent<AudioSource>().enabled = false;
+		}
 
 		// teleport instruments to their owners.
 
@@ -426,8 +431,27 @@ public class GameState : MonoBehaviour
 		ScreenFader.Instance.Fade(Color.black, Color.white, 0.33f);
 		yield return new WaitForSeconds(0.33f);
 		ScreenFader.Instance.Fade(Color.white, Color.clear, 1.0f);
-
-		yield break;
+		float timer = 0f;
+		float corrsfadeduration = 2f;
+		while(timer<corrsfadeduration)
+		{
+			timer += Time.deltaTime;
+			yield return null;
+			endingSong.volume = timer / corrsfadeduration;
+		}
+		yield return new WaitForSeconds(10f);
+		ScreenFader.Instance.Fade(Color.clear, Color.black, 3f);
+		timer = 0f;
+		corrsfadeduration = 4f;
+		while(timer<corrsfadeduration)
+		{
+			timer += Time.deltaTime;
+			yield return null;
+			endingSong.volume = 1f - timer / corrsfadeduration;
+		}
+		
+		yield return new WaitForSeconds(1f);
+		UnityEngine.SceneManagement.SceneManager.LoadScene("_StartMenu");
 	}
 
 	private void Update()
