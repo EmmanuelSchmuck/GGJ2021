@@ -6,4 +6,5 @@ public class InstrumentState
 	public PlanetDude Owner { get; set; }
 	public Instrument Object { get; set; }
 	public bool IsHintDisplayable { get; set; } = true;
+	public bool IsIntroduced { get; set; }
 }

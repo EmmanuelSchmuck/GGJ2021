@@ -149,7 +149,7 @@ public class GameState : MonoBehaviour
 		Debug.Log("GameState starting game!");
 
 		// sets up common handlers
-		player.ProximityEnter += TryDisplayInstrumentProximityHint;
+		player.ProximityEnter += OnCommonPlayerProximityEnter;
 
 		// starts a quest 
 		if (!skipTutorial)
@@ -194,6 +194,7 @@ public class GameState : MonoBehaviour
 			(player.speaker, "oh I'm sorry!", 2f),
 			(mikeOwner.speaker, "I can't sing without it!", 3f),
 			(mikeOwner.speaker, "please find it!", 2f)));
+		instrumentStates[InstrumentKind.Microphone].IsIntroduced = true;
 
 		// waits for player to be in reach of microphone
 		SetPlayerInteractive(true);
@@ -262,7 +263,7 @@ public class GameState : MonoBehaviour
 		yield break;
 	}
 
-	private void TryDisplayInstrumentProximityHint(PlayerController player, GameObject obj)
+	private void OnCommonPlayerProximityEnter(PlayerController player, GameObject obj)
 	{
 		Instrument instrument = obj.GetComponent<Instrument>();
 		if (instrument != null)
@@ -273,7 +274,30 @@ public class GameState : MonoBehaviour
 				player.speaker.Speak($"hey! it's {(state.Kind != InstrumentKind.Sticks ? "a " : "")}{state.Kind.ToString().ToLower()}!");
 
 				state.IsHintDisplayable = false;
+
+				return;
 			}
+		}
+
+		PlanetDude dude = obj.GetComponent<PlanetDude>();
+		if (dude != null)
+		{
+			StartCoroutine(RunDialogForFirstEncounter(dude));
+		}
+	}
+
+	private IEnumerator RunDialogForFirstEncounter(PlanetDude owner)
+	{
+		InstrumentState state = instrumentStates[owner.DesiredInstrumentKind];
+		if (state.Kind != InstrumentKind.Microphone && !state.IsIntroduced) // not in tutorial
+		{
+			state.IsIntroduced = true;
+
+			yield return StartCoroutine(RunDialog(owner.speaker,
+				("hey", 1f),
+				("where are we?", 2f),
+				("hey!", 1f),
+				($"where is my {state.Kind.ToString().ToLower()}?", 3f)));
 		}
 	}
 
@@ -316,29 +340,36 @@ public class GameState : MonoBehaviour
 		yield break;
 	}
 
-	//private void Update()
-	//{
-	//	if (Application.isEditor && Input.GetKeyDown(KeyCode.RightControl))
-	//	{
-	//		StartCoroutine(RunFinale());
-	//	}
-	//}
+	private void Update()
+	{
+		if (Application.isEditor && Input.GetKeyDown(KeyCode.RightControl))
+		{
+			StartCoroutine(RunFinale());
+		}
+	}
 
 	public void OnItemReturnedToOwner(InstrumentKind instrument, PlanetDude owner)
 	{
+		StartCoroutine(RunItemReturned(instrumentStates[instrument]));
+	}
+
+	private IEnumerator RunItemReturned(InstrumentState state)
+	{
 		// updates state
-		instrumentStates[instrument].IsReturnedToOwner = true;
+		state.IsReturnedToOwner = true;
 
 		// dialog
-		StartCoroutine(RunDialogForItemReturned(instrument, owner));
+		SetPlayerInteractive(false);
+		yield return StartCoroutine(RunDialogForItemReturned(state.Kind, state.Owner));
+		SetPlayerInteractive(true);
 
-		int remaining = instrumentStates.Values.Count(state => !state.IsReturnedToOwner);
-		Debug.Log($"Instrument {instrument} was returned to owner, {remaining} remaining.");
+		int remaining = instrumentStates.Values.Count(s => !s.IsReturnedToOwner);
+		Debug.Log($"Instrument {state.Kind} was returned to owner, {remaining} remaining.");
 
 		// trigger game end if we are done
 		if (remaining == 0)
 		{
-			Debug.Log("WIN!!");
+			StartCoroutine(RunFinale());
 		}
 	}
 
