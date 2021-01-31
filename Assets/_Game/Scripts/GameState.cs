@@ -381,12 +381,21 @@ public class GameState : MonoBehaviour
 	{
 		if (instrument != InstrumentKind.Microphone) // not in tutorial
 		{
-			yield return StartCoroutine(RunDialog((character.speaker, "that's not my stuff!", 3f)));
+			yield return StartCoroutine(RunDialog((character.speaker, "that's not my instrument!", 3f)));
 		}
 	}
 
 	private IEnumerator RunFinale()
 	{
+		ScreenFader.Instance.Fade(Color.clear, Color.black, 0.6f);
+		yield return new WaitForSeconds(1.0f);
+		GameObject.FindObjectOfType<CameraController>().transform.position = new Vector3(
+			concertPlanet.transform.position.x,
+			concertPlanet.transform.position.y,
+			GameObject.FindObjectOfType<CameraController>().transform.position.z
+			
+		);
+
 		// everybody on the concert planet
 
 		// remove event handlers
@@ -394,6 +403,8 @@ public class GameState : MonoBehaviour
 		player.ProximityLeave -= OnCommonPlayerProximityLeave;
 
 		concertPlanet.transform.rotation = Quaternion.identity;
+
+
 
 		// player is now non interactive
 		SetPlayerInteractive(false);
@@ -410,6 +421,11 @@ public class GameState : MonoBehaviour
 		}
 
 		// teleport instruments to their owners.
+
+		yield return new WaitForSeconds(0.5f);
+		ScreenFader.Instance.Fade(Color.black, Color.white, 0.33f);
+		yield return new WaitForSeconds(0.33f);
+		ScreenFader.Instance.Fade(Color.white, Color.clear, 1.0f);
 
 		yield break;
 	}
