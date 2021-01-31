@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c09f45779ae574ea7e81db9b32aa30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawn: 1
+  respawnDelay: 20
   extraFuelMin: 0.1
   extraFuelMax: 0.25
   speedBoostIntensity: 10

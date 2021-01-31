@@ -147,7 +147,8 @@ public class PlayerController : MonoBehaviour
 
 		if(success)
 		{
-			Instantiate(bonePrefab,bonePosition,Quaternion.identity);
+			Bone bone = Instantiate(bonePrefab,bonePosition,Quaternion.identity).GetComponent<Bone>();
+			bone.respawn = false;
 			Debug.Log("here is a helper bone :)");
 		}
 		else
