@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &384578207199124162
 Transform:
   m_ObjectHideFlags: 0
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 384578209078019786}
   - component: {fileID: 384578209078019787}
   m_Layer: 0
-  m_Name: Planet A
+  m_Name: Planet Bunny
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
