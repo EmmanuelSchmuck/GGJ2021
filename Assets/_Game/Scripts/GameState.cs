@@ -24,6 +24,9 @@ public class GameState : MonoBehaviour
 
 	#region State
 	private Dictionary<InstrumentKind, InstrumentState> instrumentStates;
+	private HashSet<Item> proximityItems;
+	private HashSet<PlanetDude> proximityMusicians;
+	private bool canAutoManageHelperBox;
 	#endregion
 
 	#region Extra Coroutines
@@ -132,6 +135,8 @@ public class GameState : MonoBehaviour
 				Owner = owners.FirstOrDefault(dude => dude.DesiredInstrumentKind == kind),
 				Object = instrObjects.FirstOrDefault(instru => instru.Kind == kind)
 			});
+		proximityItems = new HashSet<Item>();
+		proximityMusicians = new HashSet<PlanetDude>();
 	}
 
 	private void Start()
@@ -150,6 +155,7 @@ public class GameState : MonoBehaviour
 
 		// sets up common handlers
 		player.ProximityEnter += OnCommonPlayerProximityEnter;
+		player.ProximityLeave += OnCommonPlayerProximityLeave;
 
 		// starts a quest 
 		if (!skipTutorial)
@@ -165,6 +171,7 @@ public class GameState : MonoBehaviour
 	private IEnumerator RunTutorial()
 	{
 		// player starts initially on the concert planet
+		canAutoManageHelperBox = false;
 		SetPlayerInteractive(true, alsoActionKey: false);
 		SetPlayerCanUseActionKey(false);
 		SetPlayerCanTakeoff(false);
@@ -259,30 +266,32 @@ public class GameState : MonoBehaviour
 		SetPlayerCanTakeoff(true);
 		fuelBar.gameObject.SetActive(true);
 		helperBox.Hide();
-		
+		canAutoManageHelperBox = true;
+
 		yield break;
 	}
 
 	private void OnCommonPlayerProximityEnter(PlayerController player, GameObject obj)
 	{
-		Instrument instrument = obj.GetComponent<Instrument>();
-		if (instrument != null)
+		Item item = obj.GetComponent<Item>();
+		if (item != null)
 		{
-			InstrumentState state = instrumentStates[instrument.Kind];
-			if (!state.IsReturnedToOwner)
+			// keep track of items for hintbox
+			proximityItems.Add(item);
+			
+			Instrument instrument = obj.GetComponent<Instrument>();
+			if (instrument != null)
 			{
-				// dialog hint (first time)
-				if (state.IsHintDisplayable)
+				InstrumentState state = instrumentStates[instrument.Kind];
+				if (!state.IsReturnedToOwner)
 				{
-					player.speaker.Speak($"hey! it's {(state.Kind != InstrumentKind.Sticks ? "a " : "")}{state.Kind.ToString().ToLower()}!");
+					// dialog hint (first time)
+					if (state.IsHintDisplayable)
+					{
+						player.speaker.Speak($"hey! it's {(state.Kind != InstrumentKind.Sticks ? "a " : "")}{state.Kind.ToString().ToLower()}!");
 
-					state.IsHintDisplayable = false; 
-				}
-
-				// hint box (always but not tutorial)
-				if (instrument.Kind != InstrumentKind.Microphone)
-				{
-					StartCoroutine(RunShowThenHideHintBox(HelperBoxText.CatchItem, 5f)); 
+						state.IsHintDisplayable = false;
+					}
 				}
 			}
 		}
@@ -290,8 +299,48 @@ public class GameState : MonoBehaviour
 		PlanetDude dude = obj.GetComponent<PlanetDude>();
 		if (dude != null)
 		{
+			// keep track of character for hintbox
+			proximityMusicians.Add(dude);
+			
 			InstrumentState state = instrumentStates[dude.DesiredInstrumentKind];
 			StartCoroutine(RunFirstEncounter(state));
+		}
+
+		UpdateGameHints();
+	}
+
+	private void OnCommonPlayerProximityLeave(PlayerController player, GameObject obj)
+	{
+		Item item = obj.GetComponent<Item>();
+		if (item != null)
+		{
+			// stops tracking for hint box
+			proximityItems.Remove(item);
+		}
+
+		PlanetDude dude = obj.GetComponent<PlanetDude>();
+		if (dude != null)
+		{
+			// stops tracking for hint box
+			proximityMusicians.Remove(dude);
+		}
+
+		UpdateGameHints();
+	}
+
+	private void UpdateGameHints()
+	{
+		if (!player.inventory.IsFree && proximityMusicians.Count > 0)
+		{
+			helperBox.DisplayText(HelperBoxText.GiveItem);
+		}
+		else if (player.inventory.IsFree && proximityItems.Count > 0)
+		{
+			helperBox.DisplayText(HelperBoxText.CatchItem);
+		}
+		else
+		{
+			helperBox.Hide();
 		}
 	}
 
@@ -335,6 +384,10 @@ public class GameState : MonoBehaviour
 	private IEnumerator RunFinale()
 	{
 		// everybody on the concert planet
+
+		// remove event handlers
+		player.ProximityEnter -= OnCommonPlayerProximityEnter;
+		player.ProximityLeave -= OnCommonPlayerProximityLeave;
 
 		// player is now non interactive
 		SetPlayerInteractive(false);
