@@ -16,6 +16,8 @@ public class Item : MonoBehaviour
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
 
+	public bool IsAnimating{get; private set;}
+
 	protected void Awake()
 	{
 		this.gameObject.layer = LayerMask.NameToLayer("Item");
@@ -27,7 +29,7 @@ public class Item : MonoBehaviour
 	// must be in local space already
 	private IEnumerator LerpPositionAndRotation()
 	{
-		// isAnimating = true;
+		// IsAnimating = true;
 		float duration = movementAnimationDuration;
 		float timer = 0f;
 		Vector3 startPosition = transform.localPosition;
@@ -43,11 +45,12 @@ public class Item : MonoBehaviour
 			yield return null;
 		}
 		
-		// isAnimating = false;
+		// IsAnimating = false;
 	}
 
 	public void OnCatch(Transform anchor)
 	{
+		StopAllCoroutines();
 		CatchCount++;
 		transform.SetParent(anchor);
 		m_Collider.enabled = false;
@@ -59,6 +62,7 @@ public class Item : MonoBehaviour
 
 	public void OnRelease(Transform newParent = null)
 	{
+		StopAllCoroutines();
 		transform.SetParent(newParent);
 		m_Collider.enabled = true;
 		m_Rigidbody.simulated = true;

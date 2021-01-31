@@ -270,7 +270,8 @@ public class PlayerController : MonoBehaviour
 				Item item = colliders.Select(c => c.GetComponent<Item>()).FirstOrDefault();
 				if (item != null) // catch
 				{
-					m_Inventory.AcceptItem(item);
+					if(!item.IsAnimating)m_Inventory.AcceptItem(item);
+					
 				}
 			}
 			else // release
