@@ -399,10 +399,12 @@ public class GameState : MonoBehaviour
 			}
 			else // if (currentInstrument.Kind == state.Kind)
 			{
+				string that = state.Kind == InstrumentKind.Sticks ? "These are" : "That is";
+				string it = state.Kind == InstrumentKind.Sticks ? "them" : "it";
 				yield return StartCoroutine(RunDialog(
 					(state.Owner.speaker, "Hey Astrodog!", 2f),
-					(state.Owner.speaker, $"That's my {state.Kind.ToString().ToLower()}", 3f),
-					(state.Owner.speaker, $"You found it!", 2f)));
+					(state.Owner.speaker, $"{that} my {state.Kind.ToString().ToLower()}", 3f),
+					(state.Owner.speaker, $"You found {it}!", 2f)));
 			}
 			
 
