@@ -290,7 +290,8 @@ public class GameState : MonoBehaviour
 		PlanetDude dude = obj.GetComponent<PlanetDude>();
 		if (dude != null)
 		{
-			StartCoroutine(RunDialogForFirstEncounter(dude));
+			InstrumentState state = instrumentStates[dude.DesiredInstrumentKind];
+			StartCoroutine(RunFirstEncounter(state));
 		}
 	}
 
@@ -300,17 +301,20 @@ public class GameState : MonoBehaviour
 		yield return new WaitForSeconds(duration);
 		helperBox.Hide();
 	}
+
+	private IEnumerator RunFirstEncounter(InstrumentState state)
 	{
-		InstrumentState state = instrumentStates[owner.DesiredInstrumentKind];
 		if (state.Kind != InstrumentKind.Microphone && !state.IsIntroduced) // not in tutorial
 		{
 			state.IsIntroduced = true;
 
-			yield return StartCoroutine(RunDialog(owner.speaker,
+			SetPlayerInteractive(false);
+			yield return StartCoroutine(RunDialog(state.Owner.speaker,
 				("hey", 1f),
 				("where are we?", 2f),
 				("hey!", 1f),
 				($"where is my {state.Kind.ToString().ToLower()}?", 3f)));
+			SetPlayerInteractive(true);
 		}
 	}
 
