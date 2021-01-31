@@ -351,13 +351,6 @@ public class GameState : MonoBehaviour
 		}
 	}
 
-	private IEnumerator RunShowThenHideHintBox(HelperBoxText text, float duration)
-	{
-		helperBox.DisplayText(text);
-		yield return new WaitForSeconds(duration);
-		helperBox.Hide();
-	}
-
 	private IEnumerator RunFirstEncounter(InstrumentState state)
 	{
 		if (state.Kind != InstrumentKind.Microphone && !state.IsIntroduced) // not in tutorial
