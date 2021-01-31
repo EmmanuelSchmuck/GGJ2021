@@ -269,13 +269,21 @@ public class GameState : MonoBehaviour
 		if (instrument != null)
 		{
 			InstrumentState state = instrumentStates[instrument.Kind];
-			if (!state.IsReturnedToOwner && state.IsHintDisplayable)
+			if (!state.IsReturnedToOwner)
 			{
-				player.speaker.Speak($"hey! it's {(state.Kind != InstrumentKind.Sticks ? "a " : "")}{state.Kind.ToString().ToLower()}!");
+				// dialog hint (first time)
+				if (state.IsHintDisplayable)
+				{
+					player.speaker.Speak($"hey! it's {(state.Kind != InstrumentKind.Sticks ? "a " : "")}{state.Kind.ToString().ToLower()}!");
 
-				state.IsHintDisplayable = false;
+					state.IsHintDisplayable = false; 
+				}
 
-				return;
+				// hint box (always but not tutorial)
+				if (instrument.Kind != InstrumentKind.Microphone)
+				{
+					StartCoroutine(RunShowThenHideHintBox(HelperBoxText.CatchItem, 5f)); 
+				}
 			}
 		}
 
