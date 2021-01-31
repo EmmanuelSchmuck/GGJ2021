@@ -7,6 +7,11 @@ using System.Linq;
 [RequireComponent(typeof(Speaker))]
 public class PlayerController : MonoBehaviour
 {
+	public AudioSource rewradSound;
+	public AudioSource landSound, takeOffSound;
+	public AudioSource rocketSound;
+	public float maxPitch, minPitch;
+	public float maxVolume, minVolume;
 	public KeyCode actionKey = KeyCode.Space;
 	public float catchRadius = 2f;
 	public LayerMask catchLayerMask;
@@ -104,13 +109,17 @@ public class PlayerController : MonoBehaviour
 		{
 			Vector2 movementDirection = -transform.right;
 			rocketFlame.enabled = movementInput.y > Mathf.Epsilon;
+			
 			if(movementInput.y>Mathf.Epsilon)
 			{
+				
 				currentFuel -= fuelConsumptionRate * Time.deltaTime;
 			}
 
 			float forwardInput = Mathf.Max(0, movementInput.y);
 			float fuelMultiplier = Mathf.Sqrt(currentFuel);
+			rocketSound.volume = Mathf.Lerp(minVolume,maxVolume, 1f-fuelMultiplier)*movementInput.y;
+			rocketSound.pitch = Mathf.Lerp(minPitch,maxPitch, 1f-fuelMultiplier);
 
 			m_Rigidbody.AddForce(forwardInput * currentMovementSpeedInSpace * movementDirection * fuelMultiplier, ForceMode2D.Force);
 			m_Rigidbody.AddTorque(-movementInput.x * turnSpeedInSpace);
@@ -177,6 +186,7 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator LandingOnPlanet(Planet planet)
 	{
+		landSound.Play();
 		currentPlanet = planet;
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 		yield return StartCoroutine(LerpPositionAndRotation(
@@ -188,6 +198,7 @@ public class PlayerController : MonoBehaviour
 		// m_Rigidbody.inertia = 0;
 		m_Collider.isTrigger = false;
 		rocketFlame.enabled = false;
+		rocketSound.volume = 0f;
 		transform.SetParent(currentPlanet.transform);
 
 		LandedOnPlanet?.Invoke(this);
@@ -214,6 +225,7 @@ public class PlayerController : MonoBehaviour
 
 	private IEnumerator LeavingPlanet()
 	{
+		takeOffSound.Play();
 		Vector2 planetCoreToDog = transform.position - currentPlanet.transform.position;
 		transform.SetParent(null);
 		Planet p = currentPlanet;
@@ -303,9 +315,14 @@ public class PlayerController : MonoBehaviour
 			lastMovementInput = movementInput;
 		}
 	}
+	public void PlayRewardSound()
+	{
+		rewradSound.Play();
+	}
 
 	private IEnumerator BoneEffect(float intensity, float duration)
 	{
+		PlayRewardSound();
 		float startSpeed = movementSpeedInSpace;
 		float endSpeed = movementSpeedInSpace + intensity;
 		float timer = 0f;

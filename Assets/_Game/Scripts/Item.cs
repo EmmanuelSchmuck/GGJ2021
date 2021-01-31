@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Item : MonoBehaviour
 {
+	public AudioSource whoosh;
 	public float movementAnimationDuration = 0.5f;
 	public AnimationCurve movementAnimationCurve;
 	public int CatchCount; // how many time was I caught by the dog
@@ -51,6 +52,7 @@ public class Item : MonoBehaviour
 		transform.SetParent(anchor);
 		m_Collider.enabled = false;
 		m_Rigidbody.simulated = false;
+		whoosh.Play();
 		StartCoroutine(LerpPositionAndRotation());
 		// transform.localPosition = Vector3.zero;
 	}
