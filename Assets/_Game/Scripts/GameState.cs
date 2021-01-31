@@ -330,17 +330,20 @@ public class GameState : MonoBehaviour
 
 	private void UpdateGameHints()
 	{
-		if (!player.inventory.IsFree && proximityMusicians.Count > 0)
+		if (canAutoManageHelperBox)
 		{
-			helperBox.DisplayText(HelperBoxText.GiveItem);
-		}
-		else if (player.inventory.IsFree && proximityItems.Count > 0)
-		{
-			helperBox.DisplayText(HelperBoxText.CatchItem);
-		}
-		else
-		{
-			helperBox.Hide();
+			if (!player.inventory.IsFree && proximityMusicians.Count > 0)
+			{
+				helperBox.DisplayText(HelperBoxText.GiveItem);
+			}
+			else if (player.inventory.IsFree && proximityItems.Count > 0)
+			{
+				helperBox.DisplayText(HelperBoxText.CatchItem);
+			}
+			else
+			{
+				helperBox.Hide();
+			} 
 		}
 	}
 
