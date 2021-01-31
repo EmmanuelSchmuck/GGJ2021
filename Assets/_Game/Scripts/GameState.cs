@@ -437,7 +437,23 @@ public class GameState : MonoBehaviour
 	{
 		if (instrument != InstrumentKind.Microphone) // not in tutorial
 		{
-			yield return StartCoroutine(RunDialog((character.speaker, "that's not my instrument!", 3f)));
+			if (character.DesiredInstrumentKind == InstrumentKind.Harmonica)
+			{
+				yield return StartCoroutine(RunDialog(
+					(character.speaker, "That's not my harmonica...", 4f)));
+			}
+			else if (character.DesiredInstrumentKind == InstrumentKind.Ukulele)
+			{
+				yield return StartCoroutine(RunDialog(
+					(character.speaker, "No!", 1f),
+					(character.speaker, "My ukulele is blue!", 3.25f),
+					(character.speaker, "Da ba dee da ba dae.", 2f)));
+			}
+			else if (character.DesiredInstrumentKind == InstrumentKind.Sticks)
+			{
+				yield return StartCoroutine(RunDialog(
+					(character.speaker, "Beats me what you have there...", 4f)));
+			}
 		}
 	}
 
