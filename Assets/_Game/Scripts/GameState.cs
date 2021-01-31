@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,7 @@ public class GameState : MonoBehaviour
 	public PlayerController player;
 	public FuelBar fuelBar;
 	public HelperBox helperBox;
+	public TextMeshPro concertBannerText;
 	#endregion
 
 	#region Config
@@ -388,8 +390,15 @@ public class GameState : MonoBehaviour
 
 	private IEnumerator RunFinale()
 	{
+		// fade
 		ScreenFader.Instance.Fade(Color.clear, Color.black, 0.6f);
 		yield return new WaitForSeconds(1.0f);
+
+		// set banner text
+		concertBannerText.text = "CONGRATULATIONS!";
+		concertBannerText.GetComponent<TMPro.Examples.WarpTextExample>().Restart();
+
+		// cam teleport
 		GameObject.FindObjectOfType<CameraController>().transform.position = new Vector3(
 			concertPlanet.transform.position.x,
 			concertPlanet.transform.position.y,
