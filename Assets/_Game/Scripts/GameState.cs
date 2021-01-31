@@ -308,13 +308,11 @@ public class GameState : MonoBehaviour
 		{
 			state.IsIntroduced = true;
 
-			SetPlayerInteractive(false);
 			yield return StartCoroutine(RunDialog(state.Owner.speaker,
 				("hey", 1f),
 				("where are we?", 2f),
 				("hey!", 1f),
 				($"where is my {state.Kind.ToString().ToLower()}?", 3f)));
-			SetPlayerInteractive(true);
 		}
 	}
 
@@ -376,9 +374,7 @@ public class GameState : MonoBehaviour
 		state.IsReturnedToOwner = true;
 
 		// dialog
-		SetPlayerInteractive(false);
 		yield return StartCoroutine(RunDialogForItemReturned(state.Kind, state.Owner));
-		SetPlayerInteractive(true);
 
 		int remaining = instrumentStates.Values.Count(s => !s.IsReturnedToOwner);
 		Debug.Log($"Instrument {state.Kind} was returned to owner, {remaining} remaining.");
