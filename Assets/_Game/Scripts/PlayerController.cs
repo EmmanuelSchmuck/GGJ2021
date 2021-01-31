@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
 				Vector2 toPlanet = planet.transform.position - transform.position;
 				if (toPlanet.magnitude < planet.gravityDistance)
 				{
-					Vector2 force = toPlanet.normalized * planet.gravityMagnitude / toPlanet.sqrMagnitude;
+					Vector2 force = toPlanet.normalized * planet.gravityMagnitude / toPlanet.magnitude;
 					m_Rigidbody.AddForce(force, ForceMode2D.Force);
 				}
 				if (toPlanet.magnitude - planet.Radius < planetaryModeDistance && currentPlanet == null && !isAnimating)
