@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
 	public float fuelConsumptionRate;
 	private float currentFuel;
 
+	private float currentMovementSpeedInSpace;
+
 	public bool canMove;
 	public bool canGoToSpace;
 	public bool canUseActionKey;
@@ -71,6 +73,8 @@ public class PlayerController : MonoBehaviour
 
 		baseBodyScale = body.transform.localScale;
 
+		currentMovementSpeedInSpace = movementSpeedInSpace;
+
 		currentFuel = startingFuel;
 		fuelBar?.SetFuel(currentFuel);
 	}
@@ -95,7 +99,7 @@ public class PlayerController : MonoBehaviour
 			float forwardInput = Mathf.Max(0, movementInput.y);
 			float fuelMultiplier = Mathf.Sqrt(currentFuel);
 
-			m_Rigidbody.AddForce(forwardInput * movementSpeedInSpace * movementDirection * fuelMultiplier, ForceMode2D.Force);
+			m_Rigidbody.AddForce(forwardInput * currentMovementSpeedInSpace * movementDirection * fuelMultiplier, ForceMode2D.Force);
 			m_Rigidbody.AddTorque(-movementInput.x * turnSpeedInSpace);
 
 			foreach (Planet planet in planets)
@@ -296,7 +300,7 @@ public class PlayerController : MonoBehaviour
 		{
 			timer += Time.deltaTime;
 			float alpha = boneEffectCurve.Evaluate(timer/duration);
-			movementSpeedInSpace = Mathf.Lerp(startSpeed, endSpeed, alpha);
+			currentMovementSpeedInSpace = Mathf.Lerp(startSpeed, endSpeed, alpha);
 			yield return null;
 		}
 	}
