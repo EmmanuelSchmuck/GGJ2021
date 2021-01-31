@@ -412,7 +412,24 @@ public class GameState : MonoBehaviour
 	{
 		if (instrument != InstrumentKind.Microphone) // not in tutorial
 		{
-			yield return StartCoroutine(RunDialog((owner.speaker, "omg awesome!", 5f)));
+			if (instrument == InstrumentKind.Harmonica)
+			{
+				yield return StartCoroutine(RunDialog(
+					(owner.speaker, "Thanks Astrodog!", 2f)));
+			}
+			else if (instrument == InstrumentKind.Ukulele)
+			{
+				yield return StartCoroutine(RunDialog(
+					(owner.speaker, "Rrrititi titi!", 2f),
+					(owner.speaker, "That's my jam!", 2f)));
+			}
+			else if (instrument == InstrumentKind.Sticks)
+			{
+				yield return StartCoroutine(RunDialog(
+					(owner.speaker, "You're unbeatable, Astrodog!", 2f),
+					(null, null, 0.5f),
+					(owner.speaker, "Now back to work!", 2f)));
+			}
 		}
 	}
 
