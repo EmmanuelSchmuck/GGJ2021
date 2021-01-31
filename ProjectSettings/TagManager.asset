@@ -18,7 +18,7 @@ TagManager:
   - PlanetDude
   - Bone
   - Detection
-  - 
+  - Post Process
   - 
   - 
   - 
@@ -38,8 +38,20 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG1
+    uniqueID: 3461236539
+    locked: 0
+  - name: BG2
+    uniqueID: 2624089393
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BG4
+    uniqueID: 2947155729
+    locked: 0
+  - name: BG3
+    uniqueID: 3063442415
     locked: 0
   - name: UI
     uniqueID: 2437550625

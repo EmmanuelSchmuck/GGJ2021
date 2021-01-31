@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 226c4d373825b4c46b25bc7a2c25deb9, type: 3}
-  m_Color: {r: 0.5990566, g: 0.8995114, b: 1, a: 0.078431375}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -403,7 +403,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4f3243e77a9bd164384a0600ccd59c29, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9150943, g: 0.8587883, b: 0.75538445, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -472,7 +472,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   catchPoint: {fileID: 9102650004600849224}
-  movementSpeedInSpace: 15
+  movementSpeedInSpace: 20
   turnSpeedInSpace: 50
   planetaryModeDistance: 3
   useDirectionInvertionBelowPlanet: 0
@@ -624,7 +624,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.8
+  m_LinearDrag: 1
   m_AngularDrag: 12
   m_GravityScale: 0
   m_Material: {fileID: 0}
