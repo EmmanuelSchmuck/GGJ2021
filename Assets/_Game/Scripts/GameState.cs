@@ -364,11 +364,47 @@ public class GameState : MonoBehaviour
 		{
 			state.IsIntroduced = true;
 
-			yield return StartCoroutine(RunDialog(state.Owner.speaker,
-				("hey", 1f),
-				("where are we?", 2f),
-				("hey!", 1f),
-				($"where is my {state.Kind.ToString().ToLower()}?", 3f)));
+			if (state.Kind == InstrumentKind.Harmonica)
+			{
+				yield return StartCoroutine(RunDialog(
+					(state.Owner.speaker, "Astrodog!", 2f),
+					(state.Owner.speaker, "I need a helping paw.", 3f),
+					(null, null, 1f),
+					(player.speaker, "Sure!", 1f),
+					(null, null, 0.5f),
+					(state.Owner.speaker, "My harmonica is lost!", 4f),
+					(state.Owner.speaker, "Can you help me find it?", 3f)));
+			}
+			else if (state.Kind == InstrumentKind.Ukulele)
+			{
+				yield return StartCoroutine(RunDialog(
+					(state.Owner.speaker, "Rrrititititi tititi", 2f),
+					(null, null, 1f),
+					(player.speaker, "What did the fox say?", 2f),
+					(null, null, 0.5f),
+					(state.Owner.speaker, "Sorry!", 1f),
+					(null, null, 0.5f),
+					(state.Owner.speaker, "Without my ukulele it's hard to jam", 4f),
+					(state.Owner.speaker, "Can you find it for me?", 3f)));
+			}
+			else if (state.Kind == InstrumentKind.Sticks)
+			{
+				yield return StartCoroutine(RunDialog(
+					(state.Owner.speaker, "Something is drumbling me...", 4f),
+					(null, null, 1f),
+					(player.speaker, "What's wrong?", 2f),
+					(null, null, 0.5f),
+					(state.Owner.speaker, "Cogito ergo drum!", 2f),
+					(null, null, 0.5f),
+					(state.Owner.speaker, "If I don't find my sticks soon...", 4f),
+					(state.Owner.speaker, "I'll be six beats under!", 3f)));
+			}
+
+			//yield return StartCoroutine(RunDialog(state.Owner.speaker,
+			//	("hey", 1f),
+			//	("where are we?", 2f),
+			//	("hey!", 1f),
+			//	($"where is my {state.Kind.ToString().ToLower()}?", 3f)));
 		}
 	}
 
