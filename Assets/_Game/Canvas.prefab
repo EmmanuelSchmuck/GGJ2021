@@ -141,8 +141,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Use spacebar to catch the item.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 33b889d5b960de14f959dbe0b7feadd5, type: 2}
+  m_sharedMaterial: {fileID: -8151561783154778711, guid: 33b889d5b960de14f959dbe0b7feadd5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -299,8 +299,8 @@ MonoBehaviour:
   m_text: In space, use the left & right arrows to turn around, and up arrow to move
     forward.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 33b889d5b960de14f959dbe0b7feadd5, type: 2}
+  m_sharedMaterial: {fileID: -8151561783154778711, guid: 33b889d5b960de14f959dbe0b7feadd5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -531,8 +531,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: On a planet, use the up arrow to jump into space!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 33b889d5b960de14f959dbe0b7feadd5, type: 2}
+  m_sharedMaterial: {fileID: -8151561783154778711, guid: 33b889d5b960de14f959dbe0b7feadd5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -838,8 +838,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Use spacebar to let go of the item.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 33b889d5b960de14f959dbe0b7feadd5, type: 2}
+  m_sharedMaterial: {fileID: -8151561783154778711, guid: 33b889d5b960de14f959dbe0b7feadd5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1129,8 +1129,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: On a planet, use the left & right arrows to move around.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 33b889d5b960de14f959dbe0b7feadd5, type: 2}
+  m_sharedMaterial: {fileID: -8151561783154778711, guid: 33b889d5b960de14f959dbe0b7feadd5,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
