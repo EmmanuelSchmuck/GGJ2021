@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Speaker))]
 public class PlanetDude : MonoBehaviour
 {
+	public GameObject questMarker;
 	public Speaker speaker => m_Speaker;
 	
 	public InstrumentKind DesiredInstrumentKind;
@@ -35,6 +36,8 @@ public class PlanetDude : MonoBehaviour
 				{
 					// updates game state.
 					GameState.Instance.OnItemReturnedToOwner(DesiredInstrumentKind, this);
+					questMarker.SetActive(false);
+					
 
 					// take the item.
 					m_Inventory.AcceptItem(item);

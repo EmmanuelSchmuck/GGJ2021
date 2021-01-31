@@ -12,6 +12,6 @@ public class FuelBar : MonoBehaviour
     public void SetFuel(float amount)
 	{
 		fuelbarImage.fillAmount = amount;
-		fuelbarImage.color = gradient.Evaluate(easeCurve.Evaluate(amount));
+		// fuelbarImage.color = gradient.Evaluate(easeCurve.Evaluate(amount));
 	}
 }

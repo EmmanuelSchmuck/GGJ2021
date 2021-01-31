@@ -5540,8 +5540,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9102650004696341002}
   m_LocalRotation: {x: -0, y: -0, z: 0.7057162, w: 0.70849466}
-  m_LocalPosition: {x: 1.89, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.8431031, y: 0.8431031, z: 0.8431033}
+  m_LocalPosition: {x: 1.851, y: 0.5, z: 3.19}
+  m_LocalScale: {x: 0.8431031, y: -1.1278191, z: 0.8431033}
   m_Children: []
   m_Father: {fileID: 9102650005321899879}
   m_RootOrder: 0
@@ -5585,7 +5585,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: aa4bfa723ae7f5d4286a8264fbea3ed3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c574d8c06a61c464c9d9bda2c69c31d5, type: 3}
   m_Color: {r: 1, g: 0.92892253, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5853,7 +5853,7 @@ MonoBehaviour:
   rocketFlame: {fileID: 9102650004696341108}
   body: {fileID: 9102650005321899878}
   currentPlanet: {fileID: 0}
-  startingFuel: 0.66
+  startingFuel: 0.9
   minFuel: 0.1
   fuelConsumptionRate: 0.05
   canMove: 1
