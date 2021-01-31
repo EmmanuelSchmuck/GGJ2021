@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour
 {
+	public Planet concertPlanet;
 	#region Static
 	private static GameState instance;
 	public static GameState Instance => instance ?? FindObjectOfType<GameState>();
@@ -391,6 +392,8 @@ public class GameState : MonoBehaviour
 		// remove event handlers
 		player.ProximityEnter -= OnCommonPlayerProximityEnter;
 		player.ProximityLeave -= OnCommonPlayerProximityLeave;
+
+		concertPlanet.transform.rotation = Quaternion.identity;
 
 		// player is now non interactive
 		SetPlayerInteractive(false);
