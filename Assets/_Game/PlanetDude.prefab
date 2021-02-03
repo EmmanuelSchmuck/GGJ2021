@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed300b7fb2e7be4596f4d0f5c41d9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questMarker: {fileID: 0}
   DesiredInstrumentKind: 0
   maxDropAgeForResponse: 5
 --- !u!114 &191311984153062420
@@ -77,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e38af83af0e9741b815ef2d619db62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speechBubblePrefab: {fileID: 113465863023541360, guid: f6eca5f523245304ab05fcd9f018b556,
+  speechBubblePrefab: {fileID: 2834023595391029344, guid: 527e0ccdba010694fb343cec90913378,
     type: 3}
   dialogAnchor: {fileID: 6083393395891515661}
   spawnDetached: 1

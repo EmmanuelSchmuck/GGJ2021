@@ -57,7 +57,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
+  - {fileID: -1681494937838919937, guid: 1e0a89f2c83e16b47a11b690274eacbc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,8 +117,8 @@ MonoBehaviour:
 
     i am dog'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 1e0a89f2c83e16b47a11b690274eacbc, type: 2}
+  m_sharedMaterial: {fileID: -1681494937838919937, guid: 1e0a89f2c83e16b47a11b690274eacbc,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -50
+  m_lineSpacing: -25
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
