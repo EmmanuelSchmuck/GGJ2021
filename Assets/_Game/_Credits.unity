@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -444,8 +444,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BACK
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 1e0a89f2c83e16b47a11b690274eacbc, type: 2}
+  m_sharedMaterial: {fileID: -1681494937838919937, guid: 1e0a89f2c83e16b47a11b690274eacbc,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -904,8 +904,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ASTRODOG
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f5f78b7c29bf76944b89d95024a01aea, type: 2}
-  m_sharedMaterial: {fileID: 8736458738625811464, guid: f5f78b7c29bf76944b89d95024a01aea,
+  m_fontAsset: {fileID: 11400000, guid: 1e0a89f2c83e16b47a11b690274eacbc, type: 2}
+  m_sharedMaterial: {fileID: -1681494937838919937, guid: 1e0a89f2c83e16b47a11b690274eacbc,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -948,7 +948,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
